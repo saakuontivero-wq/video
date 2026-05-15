@@ -1,7 +1,6 @@
 import React from "react";
 import { AbsoluteFill, useCurrentFrame, useVideoConfig, spring, interpolate } from "remotion";
 import { AnimatedBackground } from "./components/AnimatedBackground";
-import { LogoBlu }            from "./components/LogoBlu";
 import { LogoBluFinal }       from "./components/LogoBluFinal";
 import { JobCardsGrid }       from "./components/JobCardsGrid";
 import { BrowserMockup }      from "./components/BrowserMockup";
@@ -68,7 +67,9 @@ export const RecruitingVideo: React.FC = () => {
   const ewFade = interpolate(frame, [800, 810], [0, 1], { extrapolateLeft: "clamp", extrapolateRight: "clamp" });
 
   // Scene 7 elements
-  const logoS7 = spring({ frame: Math.max(0, frame - 875), fps, config: SPRINGS.text });
+  const logoS7     = spring({ frame: Math.max(0, frame - 875), fps, config: SPRINGS.text });
+  const logoS7Blur = interpolate(frame, [920, 952], [0, 14], { extrapolateLeft: "clamp", extrapolateRight: "clamp" });
+  const logoS7Fade = interpolate(frame, [920, 955], [1, 0],  { extrapolateLeft: "clamp", extrapolateRight: "clamp" });
 
   return (
     <AbsoluteFill style={{ backgroundColor: COLORS.outerBg, fontFamily: fontStack }}>
@@ -111,20 +112,10 @@ export const RecruitingVideo: React.FC = () => {
                 position: "absolute", inset: 0,
                 display: "flex", flexDirection: "column",
                 alignItems: "center", justifyContent: "center",
-                gap: 28,
                 opacity: sceneOp(frame, S1.start, S1.end),
               }}
             >
-              {/* Logo enters from above */}
-              {(() => {
-                const s = spring({ frame: Math.max(0, frame - 10), fps, config: SPRINGS.text });
-                return (
-                  <div style={{ opacity: s, transform: `translateY(${interpolate(s, [0, 1], [-20, 0])}px)` }}>
-                    <LogoBlu width={380} />
-                  </div>
-                );
-              })()}
-              <TLine text={CONFIG.copy.s1.hook} size={78} weight={300} delay={30} />
+              <TLine text={CONFIG.copy.s1.hook} size={88} weight={300} delay={15} />
             </div>
           )}
 
@@ -192,7 +183,7 @@ export const RecruitingVideo: React.FC = () => {
             </div>
           )}
 
-          {/* ── Scene 7 — Logo final ── */}
+          {/* ── Scene 7 — Logo final con difuminado de salida ── */}
           {frame >= S7.start - 8 && (
             <div
               style={{
@@ -202,7 +193,13 @@ export const RecruitingVideo: React.FC = () => {
                 opacity: sceneOp(frame, S7.start, S7.end),
               }}
             >
-              <div style={{ opacity: logoS7, transform: `translateY(${interpolate(logoS7,[0,1],[20,0])}px)` }}>
+              <div
+                style={{
+                  opacity: logoS7 * logoS7Fade,
+                  transform: `translateY(${interpolate(logoS7, [0, 1], [20, 0])}px)`,
+                  filter: `blur(${logoS7Blur}px)`,
+                }}
+              >
                 <LogoBluFinal />
               </div>
             </div>

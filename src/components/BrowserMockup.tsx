@@ -25,8 +25,8 @@ function getRowGlow(rowIndex: number, frame: number, fps: number) {
   const intensity = Math.min(p, 1) * fadeOut;
 
   return {
-    backgroundColor: `rgba(0,207,206,${interpolate(intensity, [0, 1], [0, 0.04])})`,
-    boxShadow: `inset 0 0 0 1px rgba(0,207,206,${interpolate(intensity, [0, 1], [0, 0.35])}), 0 0 18px rgba(0,207,206,${interpolate(intensity, [0, 1], [0, 0.10])})`,
+    backgroundColor: `rgba(0,207,206,${interpolate(intensity, [0, 1], [0, 0.10])})`,
+    boxShadow: `inset 0 0 0 1px rgba(0,207,206,${interpolate(intensity, [0, 1], [0, 0.70])}), 0 0 24px rgba(0,207,206,${interpolate(intensity, [0, 1], [0, 0.28])})`,
   };
 }
 

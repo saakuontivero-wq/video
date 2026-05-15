@@ -89,12 +89,12 @@ export const CONFIG = {
   },
 
   copy: {
-    s1: { hook: '¿Buscás talento?' },
+    s1: { hook: '¿Buscás trabajo?' },
     s2: { l1: 'Está a tu',             l2: 'alcance.'                  },
     s3: { ew: 'AHORA MISMO',           l1: 'Cientos de empresas',       l2: 'buscan talento.'           },
     s4: { ew: '247 BÚSQUEDAS ACTIVAS', l1: 'Mirá qué se',               l2: 'mueve.'                    },
     s5: { ew: 'TU MOVIMIENTO',         l1: 'Dejanos tu CV.',             l2: 'Nosotros lo compartimos.'  },
-    s6: { l1: 'El trabajo que',        l2: 'estás esperando',            l3: 'TE ESPERA.',
+    s6: { l1: 'El trabajo que',        l2: 'estás buscando',             l3: 'TE ESPERA',
           cta: 'blustudioinc.com',     ew: 'SUBÍ TU CV · SIN FORMULARIOS' },
   },
 

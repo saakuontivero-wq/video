@@ -3,20 +3,13 @@ import { useCurrentFrame, useVideoConfig, spring, interpolate } from "remotion";
 import { JobCard } from "./JobCard";
 import { CONFIG, COLORS, SPRINGS, CARD, GLOW_TEXT_MINIMAL, GLOW_TEXT_SOFT, fontStack } from "../constants/theme";
 
-const SCENE_START = 180;
-const PAIR_DELAYS = [215, 233, 251, 269];
-const LAST_GLOW_END = PAIR_DELAYS[3] + 40;
+const SCENE_START  = 180;
+const FIRST_DELAY  = 215;
+const CARD_STAGGER = 10;   // frames between each card
 
 export const JobCardsGrid: React.FC<{ opacity: number }> = ({ opacity }) => {
   const frame = useCurrentFrame();
   const { fps } = useVideoConfig();
-
-  const pairs: (typeof CONFIG.jobCards[0])[][] = [
-    [CONFIG.jobCards[0], CONFIG.jobCards[1]],
-    [CONFIG.jobCards[2], CONFIG.jobCards[3]],
-    [CONFIG.jobCards[4], CONFIG.jobCards[5]],
-    [CONFIG.jobCards[6], CONFIG.jobCards[7]],
-  ];
 
   const ewS = spring({ frame: Math.max(0, frame - (SCENE_START + 8)), fps, config: SPRINGS.text });
   const h1S = spring({ frame: Math.max(0, frame - (SCENE_START + 18)), fps, config: SPRINGS.text });
@@ -40,26 +33,40 @@ export const JobCardsGrid: React.FC<{ opacity: number }> = ({ opacity }) => {
         </div>
       </div>
 
-      {/* Cards — 712px total (2×346 + 20 gap), centered in 760px */}
-      <div style={{ display: "flex", flexDirection: "column", gap: CARD.rowGap }}>
-        {pairs.map((pair, pairIdx) => {
-          const s = spring({ frame: Math.max(0, frame - PAIR_DELAYS[pairIdx]), fps, config: SPRINGS.card });
-          const isLastCard = pairIdx === 3;
-          const glowFade = isLastCard
-            ? interpolate(frame, [PAIR_DELAYS[3] + 14, LAST_GLOW_END], [1, 0], { extrapolateLeft: "clamp", extrapolateRight: "clamp" })
-            : 0;
+      {/* Cards — CSS grid, one by one with individual springs + entry glow */}
+      <div
+        style={{
+          display: "grid",
+          gridTemplateColumns: `repeat(2, ${CARD.width}px)`,
+          gap: `${CARD.rowGap}px ${CARD.gap}px`,
+        }}
+      >
+        {CONFIG.jobCards.map((card, i) => {
+          const delay = FIRST_DELAY + i * CARD_STAGGER;
+          const glowEnd = delay + 50;
+          const s = spring({ frame: Math.max(0, frame - delay), fps, config: SPRINGS.card });
+          const glowFade = interpolate(
+            frame,
+            [glowEnd - 15, glowEnd + 20],
+            [1, 0],
+            { extrapolateLeft: "clamp", extrapolateRight: "clamp" }
+          );
+          const showGlow = frame >= delay + 4 && glowFade > 0.04;
 
           return (
-            <div key={pairIdx} style={{ display: "flex", gap: CARD.gap, opacity: s, transform: `translateY(${interpolate(s,[0,1],[40,0])}px)` }}>
-              {pair.map((card, ci) => (
-                <JobCard
-                  key={ci}
-                  industry={card.industry}
-                  role={card.role}
-                  location={card.location}
-                  glow={isLastCard && glowFade > 0.05}
-                />
-              ))}
+            <div
+              key={i}
+              style={{
+                opacity: s,
+                transform: `translateY(${interpolate(s, [0, 1], [44, 0])}px)`,
+              }}
+            >
+              <JobCard
+                industry={card.industry}
+                role={card.role}
+                location={card.location}
+                glow={showGlow}
+              />
             </div>
           );
         })}
