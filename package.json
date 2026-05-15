@@ -1,0 +1,23 @@
+{
+  "name": "recruiting-video",
+  "version": "1.0.0",
+  "description": "Remotion recruiting video animation",
+  "scripts": {
+    "start": "npx remotion studio",
+    "build": "npx remotion render RecruitingVideo out/recruiting-ad.mp4 --codec=h264",
+    "render": "npx remotion render RecruitingVideo out/recruiting-ad.mp4 --codec=h264"
+  },
+  "dependencies": {
+    "@remotion/bundler": "4.0.290",
+    "@remotion/cli": "4.0.290",
+    "@remotion/google-fonts": "4.0.290",
+    "remotion": "4.0.290",
+    "react": "18.3.1",
+    "react-dom": "18.3.1"
+  },
+  "devDependencies": {
+    "@types/react": "18.3.1",
+    "@types/react-dom": "18.3.1",
+    "typescript": "5.4.5"
+  }
+}
