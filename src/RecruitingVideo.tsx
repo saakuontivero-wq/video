@@ -1,13 +1,7 @@
 import React from "react";
 import {
-  AbsoluteFill,
-  useCurrentFrame,
-  useVideoConfig,
-  spring,
-  interpolate,
-  staticFile,
-  delayRender,
-  continueRender,
+  AbsoluteFill, useCurrentFrame, useVideoConfig,
+  spring, interpolate, staticFile, delayRender, continueRender,
 } from "remotion";
 import { Background }    from "./components/Background";
 import { BluLogo }       from "./components/BluLogo";
@@ -16,7 +10,7 @@ import { BrowserMockup } from "./components/BrowserMockup";
 import { UploadCard }    from "./components/UploadCard";
 import { COLORS, SPRINGS, CONFIG } from "./constants/theme";
 
-// ─── Font loading ───────────────────────────────────────────────────────────
+// ─── Font ────────────────────────────────────────────────────────────────────
 const fontFamily = "Inter, sans-serif";
 
 function loadInterFont() {
@@ -34,7 +28,7 @@ function loadInterFont() {
   document.head.appendChild(style);
 }
 
-// ─── Scene boundaries ───────────────────────────────────────────────────────
+// ─── Scene boundaries ─────────────────────────────────────────────────────────
 const S1 = { start: 0,   end: 90  };
 const S2 = { start: 90,  end: 180 };
 const S3 = { start: 180, end: 420 };
@@ -42,76 +36,58 @@ const S4 = { start: 420, end: 600 };
 const S5 = { start: 600, end: 750 };
 const S6 = { start: 750, end: 810 };
 
-function fadeIn(frame: number, at: number): number {
-  return interpolate(frame, [at - 8, at + 12], [0, 1], { extrapolateLeft: "clamp", extrapolateRight: "clamp" });
-}
-function fadeOut(frame: number, at: number): number {
-  return interpolate(frame, [at - 12, at + 8], [1, 0], { extrapolateLeft: "clamp", extrapolateRight: "clamp" });
-}
 function sceneOp(frame: number, start: number, end: number): number {
-  return Math.min(fadeIn(frame, start), fadeOut(frame, end));
+  const fi = interpolate(frame, [start - 8, start + 12], [0, 1], { extrapolateLeft: "clamp", extrapolateRight: "clamp" });
+  const fo = interpolate(frame, [end - 12, end + 8],     [1, 0], { extrapolateLeft: "clamp", extrapolateRight: "clamp" });
+  return Math.min(fi, fo);
 }
 
-// ─── Floating particles (scenes 1, 2, 6) ───────────────────────────────────
-const PARTICLES = [
-  { x: 90,  y: 280,  r: 3, sx: 0.018, sy: 0.013, ax: 18, ay: 12 },
-  { x: 640, y: 420,  r: 2, sx: 0.014, sy: 0.020, ax: 22, ay: 16 },
-  { x: 55,  y: 720,  r: 4, sx: 0.022, sy: 0.015, ax: 14, ay: 20 },
-  { x: 700, y: 900,  r: 2, sx: 0.017, sy: 0.024, ax: 20, ay: 10 },
-  { x: 350, y: 1300, r: 3, sx: 0.020, sy: 0.016, ax: 16, ay: 18 },
+// ─── Particles (4, scenes 1, 2, 6) ────────────────────────────────────────────
+const PARTICLE_DEFS = [
+  { cx: 0.20, cy: 0.30, r: 3, speed: 0.7, phase: 0   },
+  { cx: 0.75, cy: 0.50, r: 2, speed: 0.5, phase: 45  },
+  { cx: 0.40, cy: 0.75, r: 4, speed: 0.6, phase: 90  },
+  { cx: 0.85, cy: 0.20, r: 2, speed: 0.8, phase: 135 },
 ];
 
 const Particles: React.FC<{ opacity: number }> = ({ opacity }) => {
   const frame = useCurrentFrame();
   return (
     <div style={{ position: "absolute", inset: 0, opacity, pointerEvents: "none" }}>
-      {PARTICLES.map((p, i) => (
-        <div
-          key={i}
-          style={{
-            position: "absolute",
-            left: p.x + Math.sin(frame * p.sx + i * 1.3) * p.ax,
-            top:  p.y + Math.cos(frame * p.sy + i * 0.9) * p.ay,
-            width:  p.r * 2,
-            height: p.r * 2,
-            borderRadius: "50%",
-            backgroundColor: "rgba(0,207,206,0.15)",
-          }}
-        />
-      ))}
+      {PARTICLE_DEFS.map((p, i) => {
+        const cy = p.cy * 1600 + Math.sin((frame * p.speed + p.phase) * Math.PI / 180) * 20;
+        return (
+          <div
+            key={i}
+            style={{
+              position: "absolute",
+              left: p.cx * 760,
+              top:  cy,
+              width:  p.r * 2,
+              height: p.r * 2,
+              borderRadius: "50%",
+              backgroundColor: "rgba(61,233,194,0.12)",
+            }}
+          />
+        );
+      })}
     </div>
   );
 };
 
-// ─── Text entry helper ──────────────────────────────────────────────────────
-const TextLine: React.FC<{
-  text: string;
-  size: number;
-  weight: number;
-  accent?: boolean;
-  delay: number;
-}> = ({ text, size, weight, accent, delay }) => {
+// ─── Single animated text line ─────────────────────────────────────────────────
+const TLine: React.FC<{ text: string; size: number; weight: number; accent?: boolean; delay: number }> = ({ text, size, weight, accent, delay }) => {
   const frame = useCurrentFrame();
   const { fps } = useVideoConfig();
   const s = spring({ frame: Math.max(0, frame - delay), fps, config: SPRINGS.text });
   return (
-    <div
-      style={{
-        fontSize: size,
-        fontWeight: weight,
-        color: accent ? COLORS.accent : COLORS.textPrimary,
-        lineHeight: 1.1,
-        textAlign: "center",
-        opacity: s,
-        transform: `translateY(${interpolate(s, [0, 1], [28, 0])}px)`,
-      }}
-    >
+    <div style={{ fontSize: size, fontWeight: weight, color: accent ? COLORS.accent : COLORS.textPrimary, lineHeight: 1.1, textAlign: "center", opacity: s, transform: `translateY(${interpolate(s,[0,1],[28,0])}px)` }}>
       {text}
     </div>
   );
 };
 
-// ─── Main component ─────────────────────────────────────────────────────────
+// ─── Main component ────────────────────────────────────────────────────────────
 export const RecruitingVideo: React.FC = () => {
   const frame = useCurrentFrame();
   const { fps } = useVideoConfig();
@@ -122,16 +98,14 @@ export const RecruitingVideo: React.FC = () => {
     document.fonts.ready.then(() => continueRender(handle));
   }, [handle]);
 
-  // Scenes 1, 2, 6 are text-only — show particles in those windows
   const inTextScene = frame < S3.start || frame >= S6.start;
-  const particleOp  = inTextScene ? 1 : 0;
 
-  // Closing scene
+  // Scene 6 elements
   const logoS      = spring({ frame: Math.max(0, frame - 782), fps, config: { damping: 14, stiffness: 100 } });
   const eyebrowFade = interpolate(frame, [792, 802], [0, 1], { extrapolateLeft: "clamp", extrapolateRight: "clamp" });
 
   return (
-    <AbsoluteFill style={{ backgroundColor: COLORS.bgOuter, fontFamily }}>
+    <AbsoluteFill style={{ backgroundColor: COLORS.outerBg, fontFamily }}>
 
       {/* ── Inner rounded rectangle ── */}
       <div
@@ -141,29 +115,29 @@ export const RecruitingVideo: React.FC = () => {
           width: 880, height: 1720,
           borderRadius: 60,
           overflow: "hidden",
-          backgroundColor: COLORS.bgBase,
+          backgroundColor: COLORS.innerBg,
         }}
       >
         <Background />
 
-        {/* ── Content area 760 × 1600, padded 60px inside ── */}
+        {/* ── Content area 760 × 1600 ── */}
         <div style={{ position: "absolute", left: 60, top: 60, width: 760, height: 1600 }}>
 
-          {/* Floating particles */}
-          <Particles opacity={particleOp} />
+          {/* Particles — text-only scenes */}
+          <Particles opacity={inTextScene ? 1 : 0} />
 
           {/* ── Scene 1 — Hook ── */}
           {frame < S2.end && (
             <div style={{ position: "absolute", inset: 0, display: "flex", alignItems: "center", justifyContent: "center", opacity: sceneOp(frame, S1.start, S1.end) }}>
-              <TextLine text={CONFIG.copy.scene1} size={81} weight={300} delay={15} />
+              <TLine text={CONFIG.copy.s1} size={81} weight={300} delay={15} />
             </div>
           )}
 
           {/* ── Scene 2 — Promesa ── */}
           {frame >= S2.start - 8 && frame < S3.start && (
             <div style={{ position: "absolute", inset: 0, display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", opacity: sceneOp(frame, S2.start, S2.end) }}>
-              <TextLine text={CONFIG.copy.scene2.line1} size={70} weight={300} delay={95}  />
-              <TextLine text={CONFIG.copy.scene2.line2} size={84} weight={800} accent delay={107} />
+              <TLine text={CONFIG.copy.s2.l1} size={70} weight={300} delay={95} />
+              <TLine text={CONFIG.copy.s2.l2} size={84} weight={800} accent delay={107} />
             </div>
           )}
 
@@ -186,40 +160,33 @@ export const RecruitingVideo: React.FC = () => {
           {frame >= S6.start - 8 && (
             <div
               style={{
-                position: "absolute",
-                inset: 0,
-                display: "flex",
-                flexDirection: "column",
-                alignItems: "center",
-                justifyContent: "center",
+                position: "absolute", inset: 0,
+                display: "flex", flexDirection: "column",
+                alignItems: "center", justifyContent: "center",
                 opacity: sceneOp(frame, S6.start, S6.end),
               }}
             >
-              {/* Line 1 & 2 */}
-              {[CONFIG.copy.closing.line1, CONFIG.copy.closing.line2].map((line, i) => (
-                <TextLine key={i} text={line} size={51} weight={300} delay={752 + i * 8} />
-              ))}
+              <TLine text={CONFIG.copy.s6.l1} size={51} weight={300} delay={752} />
+              <TLine text={CONFIG.copy.s6.l2} size={51} weight={300} delay={758} />
+              <TLine text={CONFIG.copy.s6.l3} size={95} weight={800} accent delay={772} />
 
-              {/* "te espera." */}
-              <TextLine text={CONFIG.copy.closing.line3} size={95} weight={800} accent delay={772} />
+              {/* Divider */}
+              <div style={{ width: 120, height: 1, background: "rgba(61,233,194,0.18)", margin: "32px 0 0", opacity: logoS }} />
 
-              {/* Thin divider */}
-              <div style={{ width: 140, height: 1, background: "rgba(0,207,206,0.2)", margin: "32px 0 0", opacity: logoS }} />
-
-              {/* BLU Logo */}
-              <div style={{ marginTop: 24, opacity: logoS, transform: `translateY(${interpolate(logoS, [0, 1], [18, 0])}px)` }}>
+              {/* Logo */}
+              <div style={{ marginTop: 24, opacity: logoS, transform: `translateY(${interpolate(logoS,[0,1],[18,0])}px)` }}>
                 <BluLogo width={180} />
               </div>
 
               {/* Eyebrow */}
               <div style={{ marginTop: 18, fontSize: 20, fontWeight: 400, letterSpacing: "0.15em", textTransform: "uppercase" as const, color: COLORS.textSecondary, opacity: eyebrowFade, textAlign: "center" }}>
-                {CONFIG.copy.closing.eyebrow}
+                {CONFIG.copy.s6.ew}
               </div>
             </div>
           )}
 
-        </div>{/* end content area */}
-      </div>{/* end inner rect */}
+        </div>
+      </div>
 
     </AbsoluteFill>
   );

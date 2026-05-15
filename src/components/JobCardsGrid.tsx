@@ -1,13 +1,11 @@
 import React from "react";
 import { useCurrentFrame, useVideoConfig, spring, interpolate } from "remotion";
 import { JobCard } from "./JobCard";
-import { CONFIG, COLORS, SPRINGS } from "../constants/theme";
+import { CONFIG, COLORS, SPRINGS, CARD } from "../constants/theme";
 
 const SCENE_START = 180;
-// Stagger delays per pair
 const PAIR_DELAYS = [220, 238, 256, 274];
-// Last card glow fades out 30 frames after it fully enters
-const LAST_GLOW_END = PAIR_DELAYS[3] + 40;
+const LAST_GLOW_END = PAIR_DELAYS[3] + 42;
 
 export const JobCardsGrid: React.FC<{ opacity: number }> = ({ opacity }) => {
   const frame = useCurrentFrame();
@@ -20,84 +18,38 @@ export const JobCardsGrid: React.FC<{ opacity: number }> = ({ opacity }) => {
     [CONFIG.jobCards[6], CONFIG.jobCards[7]],
   ];
 
-  const eyebrowOpacity = interpolate(frame, [SCENE_START, SCENE_START + 15], [0, 1], { extrapolateRight: "clamp" });
+  const eyebrowS = spring({ frame: Math.max(0, frame - (SCENE_START + 5)), fps, config: SPRINGS.text });
+  const heading1S = spring({ frame: Math.max(0, frame - (SCENE_START + 12)), fps, config: SPRINGS.text });
+  const heading2S = spring({ frame: Math.max(0, frame - (SCENE_START + 24)), fps, config: SPRINGS.text });
 
   return (
-    <div
-      style={{
-        position: "absolute",
-        inset: 0,
-        display: "flex",
-        flexDirection: "column",
-        alignItems: "center",
-        paddingTop: 60,
-        opacity,
-      }}
-    >
+    <div style={{ position: 'absolute', inset: 0, display: 'flex', flexDirection: 'column', alignItems: 'center', paddingTop: 60, opacity }}>
+
       {/* Eyebrow */}
-      <div
-        style={{
-          fontSize: 20,
-          fontWeight: 400,
-          letterSpacing: "0.15em",
-          textTransform: "uppercase" as const,
-          color: COLORS.textSecondary,
-          marginBottom: 18,
-          opacity: eyebrowOpacity,
-        }}
-      >
-        {CONFIG.copy.scene3.eyebrow}
+      <div style={{ fontSize: 20, fontWeight: 400, letterSpacing: '0.15em', textTransform: 'uppercase' as const, color: COLORS.textSecondary, marginBottom: 18, opacity: eyebrowS, transform: `translateY(${interpolate(eyebrowS, [0,1], [28,0])}px)` }}>
+        {CONFIG.copy.s3.ew}
       </div>
 
       {/* Heading */}
-      <div style={{ textAlign: "center", marginBottom: 32 }}>
-        {[CONFIG.copy.scene3.line1, CONFIG.copy.scene3.line2].map((line, i) => {
-          const s = spring({
-            frame: Math.max(0, frame - (SCENE_START + 10 + i * 14)),
-            fps,
-            config: SPRINGS.text,
-          });
-          return (
-            <div
-              key={i}
-              style={{
-                fontSize: i === 1 ? 84 : 70,
-                fontWeight: i === 1 ? 800 : 300,
-                color: i === 1 ? COLORS.accent : COLORS.textPrimary,
-                lineHeight: 1.1,
-                opacity: s,
-                transform: `translateY(${interpolate(s, [0, 1], [28, 0])}px)`,
-              }}
-            >
-              {line}
-            </div>
-          );
-        })}
+      <div style={{ textAlign: 'center', marginBottom: 32 }}>
+        <div style={{ fontSize: 70, fontWeight: 300, color: COLORS.textPrimary, lineHeight: 1.1, opacity: heading1S, transform: `translateY(${interpolate(heading1S,[0,1],[28,0])}px)` }}>
+          {CONFIG.copy.s3.l1}
+        </div>
+        <div style={{ fontSize: 84, fontWeight: 800, color: COLORS.accent, lineHeight: 1.1, opacity: heading2S, transform: `translateY(${interpolate(heading2S,[0,1],[28,0])}px)` }}>
+          {CONFIG.copy.s3.l2}
+        </div>
       </div>
 
-      {/* Cards grid — 2 cols × 352px, gap 22px = 726px centered in 760px */}
-      <div style={{ display: "flex", flexDirection: "column", gap: 14 }}>
+      {/* Cards grid — 726px total (2 × 352 + 22 gap) centered in 760px */}
+      <div style={{ display: 'flex', flexDirection: 'column', gap: CARD.rowGap }}>
         {pairs.map((pair, pairIdx) => {
-          const s = spring({
-            frame: Math.max(0, frame - PAIR_DELAYS[pairIdx]),
-            fps,
-            config: SPRINGS.card,
-          });
+          const s = spring({ frame: Math.max(0, frame - PAIR_DELAYS[pairIdx]), fps, config: SPRINGS.card });
           return (
-            <div
-              key={pairIdx}
-              style={{
-                display: "flex",
-                gap: 22,
-                opacity: s,
-                transform: `translateY(${interpolate(s, [0, 1], [40, 0])}px)`,
-              }}
-            >
+            <div key={pairIdx} style={{ display: 'flex', gap: CARD.gap, opacity: s, transform: `translateY(${interpolate(s,[0,1],[40,0])}px)` }}>
               {pair.map((card, ci) => {
-                // Last card of last pair gets a glow that fades out
                 const isLastCard = pairIdx === 3 && ci === 1;
                 const glowFade = isLastCard
-                  ? interpolate(frame, [PAIR_DELAYS[3] + 15, LAST_GLOW_END], [1, 0], { extrapolateLeft: "clamp", extrapolateRight: "clamp" })
+                  ? interpolate(frame, [PAIR_DELAYS[3] + 16, LAST_GLOW_END], [1, 0], { extrapolateLeft: 'clamp', extrapolateRight: 'clamp' })
                   : 0;
                 return (
                   <JobCard
