@@ -81,6 +81,9 @@ export const UploadCard: React.FC<{ opacity: number }> = ({ opacity }) => {
           </div>
         </div>
 
+        {/* Divider */}
+        <div style={{ height: 1, background: "rgba(0,207,206,0.12)", margin: "0 -36px 20px" }} />
+
         {/* PDF row */}
         <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 12, padding: "10px 12px", background: "rgba(0,207,206,0.03)", borderRadius: 10, border: "1px solid rgba(0,207,206,0.08)" }}>
           <div style={{ width: 34, height: 38, background: "#DC2626", borderRadius: 4, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>

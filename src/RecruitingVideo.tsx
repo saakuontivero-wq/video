@@ -1,7 +1,8 @@
 import React from "react";
 import { AbsoluteFill, useCurrentFrame, useVideoConfig, spring, interpolate } from "remotion";
 import { AnimatedBackground } from "./components/AnimatedBackground";
-import { LogoBluRecruiting }  from "./components/LogoBluRecruiting";
+import { LogoBlu }            from "./components/LogoBlu";
+import { LogoBluFinal }       from "./components/LogoBluFinal";
 import { JobCardsGrid }       from "./components/JobCardsGrid";
 import { BrowserMockup }      from "./components/BrowserMockup";
 import { UploadCard }         from "./components/UploadCard";
@@ -13,7 +14,8 @@ const S2 = { start: 90,  end: 180 };
 const S3 = { start: 180, end: 420 };
 const S4 = { start: 420, end: 600 };
 const S5 = { start: 600, end: 750 };
-const S6 = { start: 750, end: 810 };
+const S6 = { start: 750, end: 870 };
+const S7 = { start: 870, end: 960 };
 
 function sceneOp(frame: number, start: number, end: number): number {
   const fi = interpolate(frame, [start - 8, start + 12], [0, 1], { extrapolateLeft: "clamp", extrapolateRight: "clamp" });
@@ -27,7 +29,6 @@ interface TLineProps {
   size: number;
   weight: number;
   accent?: boolean;
-  glow?: boolean;
   glowSoft?: boolean;
   delay: number;
   ls?: string;
@@ -63,9 +64,11 @@ export const RecruitingVideo: React.FC = () => {
   const { fps } = useVideoConfig();
 
   // Scene 6 elements
-  const logoS6   = spring({ frame: Math.max(0, frame - 780), fps, config: SPRINGS.text });
-  const ctaS     = spring({ frame: Math.max(0, frame - 788), fps, config: SPRINGS.text });
-  const ewFade   = interpolate(frame, [795, 805], [0, 1], { extrapolateLeft: "clamp", extrapolateRight: "clamp" });
+  const ctaS   = spring({ frame: Math.max(0, frame - 785), fps, config: SPRINGS.text });
+  const ewFade = interpolate(frame, [800, 810], [0, 1], { extrapolateLeft: "clamp", extrapolateRight: "clamp" });
+
+  // Scene 7 elements
+  const logoS7 = spring({ frame: Math.max(0, frame - 875), fps, config: SPRINGS.text });
 
   return (
     <AbsoluteFill style={{ backgroundColor: COLORS.outerBg, fontFamily: fontStack }}>
@@ -112,16 +115,15 @@ export const RecruitingVideo: React.FC = () => {
                 opacity: sceneOp(frame, S1.start, S1.end),
               }}
             >
-              {/* Logo — enters from above */}
+              {/* Logo enters from above */}
               {(() => {
                 const s = spring({ frame: Math.max(0, frame - 10), fps, config: SPRINGS.text });
                 return (
                   <div style={{ opacity: s, transform: `translateY(${interpolate(s, [0, 1], [-20, 0])}px)` }}>
-                    <LogoBluRecruiting width={520} />
+                    <LogoBlu width={380} />
                   </div>
                 );
               })()}
-              {/* Hook text */}
               <TLine text={CONFIG.copy.s1.hook} size={78} weight={300} delay={30} />
             </div>
           )}
@@ -150,7 +152,7 @@ export const RecruitingVideo: React.FC = () => {
           )}
 
           {/* ── Scene 6 — Closing ── */}
-          {frame >= S6.start - 8 && (
+          {frame >= S6.start - 8 && frame < S7.start && (
             <div
               style={{
                 position: "absolute", inset: 0,
@@ -163,13 +165,8 @@ export const RecruitingVideo: React.FC = () => {
               <TLine text={CONFIG.copy.s6.l2} size={48} weight={300} delay={756} ls="-0.01em" />
               <TLine text={CONFIG.copy.s6.l3} size={88} weight={700} accent glowSoft delay={770} />
 
-              {/* Gap + Logo */}
-              <div style={{ marginTop: 44, opacity: logoS6, transform: `translateY(${interpolate(logoS6,[0,1],[-16,0])}px)` }}>
-                <LogoBluRecruiting width={520} />
-              </div>
-
               {/* CTA button */}
-              <div style={{ marginTop: 24, opacity: ctaS, transform: `scale(${interpolate(ctaS,[0,1],[0.95,1])})` }}>
+              <div style={{ marginTop: 40, opacity: ctaS, transform: `scale(${interpolate(ctaS,[0,1],[0.95,1])})` }}>
                 <div
                   style={{
                     width: 320, height: 56,
@@ -189,8 +186,24 @@ export const RecruitingVideo: React.FC = () => {
               </div>
 
               {/* Eyebrow */}
-              <div style={{ marginTop: 14, fontSize: 16, fontWeight: 400, letterSpacing: "0.18em", textTransform: "uppercase" as const, color: COLORS.textDim, opacity: ewFade, textShadow: GLOW_TEXT_MINIMAL }}>
+              <div style={{ marginTop: 16, fontSize: 16, fontWeight: 400, letterSpacing: "0.18em", textTransform: "uppercase" as const, color: COLORS.textDim, opacity: ewFade, textShadow: GLOW_TEXT_MINIMAL }}>
                 {CONFIG.copy.s6.ew}
+              </div>
+            </div>
+          )}
+
+          {/* ── Scene 7 — Logo final ── */}
+          {frame >= S7.start - 8 && (
+            <div
+              style={{
+                position: "absolute", inset: 0,
+                display: "flex", flexDirection: "column",
+                alignItems: "center", justifyContent: "center",
+                opacity: sceneOp(frame, S7.start, S7.end),
+              }}
+            >
+              <div style={{ opacity: logoS7, transform: `translateY(${interpolate(logoS7,[0,1],[20,0])}px)` }}>
+                <LogoBluFinal />
               </div>
             </div>
           )}

@@ -41,11 +41,12 @@ export const CARD = {
 
 export const BROWSER = {
   width: 760, borderRadius: 16,
-  headerHeight: 42, rowHeight: 68,
+  headerHeight: 19, searchBarHeight: 106, filterBarHeight: 44,
+  rowHeight: 78, totalHeight: 559,
 };
 
 export const UPLOAD = {
-  width: 720, borderRadius: 16, barHeight: 5,
+  width: 720, height: 334, borderRadius: 16, barHeight: 5,
 };
 
 // ─── Layout ────────────────────────────────────────────────────────────────────
@@ -93,7 +94,7 @@ export const CONFIG = {
     s3: { ew: 'AHORA MISMO',           l1: 'Cientos de empresas',       l2: 'buscan talento.'           },
     s4: { ew: '247 BÚSQUEDAS ACTIVAS', l1: 'Mirá qué se',               l2: 'mueve.'                    },
     s5: { ew: 'TU MOVIMIENTO',         l1: 'Dejanos tu CV.',             l2: 'Nosotros lo compartimos.'  },
-    s6: { l1: 'El trabajo que',        l2: 'estás esperando',            l3: 'te espera.',
+    s6: { l1: 'El trabajo que',        l2: 'estás esperando',            l3: 'TE ESPERA.',
           cta: 'blustudioinc.com',     ew: 'SUBÍ TU CV · SIN FORMULARIOS' },
   },
 
@@ -102,5 +103,6 @@ export const CONFIG = {
     { row: 1, start: 510, duration: 45 },
     { row: 2, start: 550, duration: 35 },
     { row: 3, start: 575, duration: 35 },
+    { row: 4, start: 595, duration: 30 },
   ],
 };
