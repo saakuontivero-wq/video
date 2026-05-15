@@ -5,6 +5,17 @@ import { COLORS, SPRINGS, UPLOAD, CONFIG, GLOW_TEXT_MINIMAL, GLOW_TEXT_SOFT, fon
 const SCENE_START = 600;
 const CARD_ENTER  = 620;
 
+const GLASS_BG     = "rgba(3, 16, 15, 0.22)";
+const GLASS_BLUR   = "blur(28px)";
+const GLASS_BORDER = "1px dashed rgba(0,207,206,0.38)";
+const GLASS_SHADOW = [
+  "0 0 0 1px rgba(0,207,206,0.10)",
+  "0 0 50px rgba(0,207,206,0.18)",
+  "0 14px 55px rgba(0,0,0,0.60)",
+  "inset 0 1px 0 rgba(255,255,255,0.16)",
+  "inset 0 0 30px rgba(0,207,206,0.05)",
+].join(", ");
+
 export const UploadCard: React.FC<{ opacity: number }> = ({ opacity }) => {
   const frame = useCurrentFrame();
   const { fps } = useVideoConfig();
@@ -12,7 +23,6 @@ export const UploadCard: React.FC<{ opacity: number }> = ({ opacity }) => {
 
   const cardS = spring({ frame: Math.max(0, frame - CARD_ENTER), fps, config: SPRINGS.ui });
 
-  // Always state B — match found from card entry
   const stateFade  = interpolate(frame, [620, 632], [0, 1], { extrapolateLeft: "clamp", extrapolateRight: "clamp" });
   const barWidth   = interpolate(frame, [622, 645], [0, 100],        { extrapolateLeft: "clamp", extrapolateRight: "clamp" });
   const matchScore = Math.round(interpolate(frame, [624, 652], [0, u.matchScore], { extrapolateLeft: "clamp", extrapolateRight: "clamp" }));
@@ -40,18 +50,18 @@ export const UploadCard: React.FC<{ opacity: number }> = ({ opacity }) => {
         </div>
       </div>
 
-      {/* Upload card — glass panel */}
+      {/* Upload card — strong glass panel */}
       <div
         style={{
           width: UPLOAD.width,
-          background: "rgba(6, 24, 22, 0.38)",
-          backdropFilter: "blur(20px)",
-          WebkitBackdropFilter: "blur(20px)",
-          border: "1px dashed rgba(0,207,206,0.30)",
+          background: GLASS_BG,
+          backdropFilter: GLASS_BLUR,
+          WebkitBackdropFilter: GLASS_BLUR,
+          border: GLASS_BORDER,
           borderRadius: UPLOAD.borderRadius,
           padding: "32px 36px",
           boxSizing: "border-box" as const,
-          boxShadow: "0 8px 44px rgba(0,0,0,0.50), inset 0 1px 0 rgba(255,255,255,0.05), inset 0 0 0 1px rgba(0,207,206,0.06)",
+          boxShadow: GLASS_SHADOW,
           opacity: interpolate(cardS, [0, 0.3, 1], [0, 0, 1]),
           transform: `translateY(${interpolate(cardS,[0,1],[50,0])}px) scale(${interpolate(cardS,[0,1],[0.97,1])})`,
         }}
@@ -75,18 +85,19 @@ export const UploadCard: React.FC<{ opacity: number }> = ({ opacity }) => {
         </div>
 
         {/* Divider */}
-        <div style={{ height: 1, background: "rgba(0,207,206,0.14)", margin: "0 -36px 20px" }} />
+        <div style={{ height: 1, background: "rgba(0,207,206,0.18)", margin: "0 -36px 20px" }} />
 
         {/* PDF row — glass pill */}
         <div
           style={{
             display: "flex", alignItems: "center", gap: 12, marginBottom: 12,
             padding: "10px 12px",
-            background: "rgba(0,207,206,0.04)",
-            backdropFilter: "blur(8px)",
-            WebkitBackdropFilter: "blur(8px)",
+            background: "rgba(0,207,206,0.05)",
+            backdropFilter: "blur(12px)",
+            WebkitBackdropFilter: "blur(12px)",
             borderRadius: 10,
-            border: "1px solid rgba(0,207,206,0.10)",
+            border: "1px solid rgba(0,207,206,0.18)",
+            boxShadow: "inset 0 1px 0 rgba(255,255,255,0.08)",
           }}
         >
           <div style={{ width: 34, height: 38, background: "#DC2626", borderRadius: 4, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
@@ -99,8 +110,8 @@ export const UploadCard: React.FC<{ opacity: number }> = ({ opacity }) => {
           <div style={{ fontSize: 18, fontWeight: 700, color: COLORS.accent }}>✓ OK</div>
         </div>
 
-        {/* Progress bar — 100% */}
-        <div style={{ height: UPLOAD.barHeight, background: "rgba(13,53,53,0.60)", borderRadius: 3, overflow: "hidden", marginBottom: 16 }}>
+        {/* Progress bar */}
+        <div style={{ height: UPLOAD.barHeight, background: "rgba(13,53,53,0.50)", borderRadius: 3, overflow: "hidden", marginBottom: 16 }}>
           <div style={{ height: "100%", width: `${barWidth}%`, background: COLORS.accent, borderRadius: 3, filter: "drop-shadow(0 0 4px rgba(0,207,206,0.6))" }} />
         </div>
 
@@ -109,10 +120,11 @@ export const UploadCard: React.FC<{ opacity: number }> = ({ opacity }) => {
           style={{
             padding: "12px 14px",
             background: "rgba(0,207,206,0.06)",
-            backdropFilter: "blur(10px)",
-            WebkitBackdropFilter: "blur(10px)",
-            border: "1px solid rgba(0,207,206,0.22)",
+            backdropFilter: "blur(12px)",
+            WebkitBackdropFilter: "blur(12px)",
+            border: "1px solid rgba(0,207,206,0.28)",
             borderRadius: 10,
+            boxShadow: "0 0 20px rgba(0,207,206,0.10), inset 0 1px 0 rgba(255,255,255,0.08)",
             opacity: stateFade,
           }}
         >
@@ -123,7 +135,7 @@ export const UploadCard: React.FC<{ opacity: number }> = ({ opacity }) => {
             </div>
             <div style={{ fontSize: 28, fontWeight: 700, color: COLORS.accent }}>{matchScore}%</div>
           </div>
-          <div style={{ height: UPLOAD.barHeight, background: "rgba(13,53,53,0.60)", borderRadius: 3, overflow: "hidden" }}>
+          <div style={{ height: UPLOAD.barHeight, background: "rgba(13,53,53,0.50)", borderRadius: 3, overflow: "hidden" }}>
             <div style={{ height: "100%", width: `${matchBar}%`, background: COLORS.accent, borderRadius: 3, filter: "drop-shadow(0 0 4px rgba(0,207,206,0.6))" }} />
           </div>
         </div>

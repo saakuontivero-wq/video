@@ -15,16 +15,16 @@ export const JobCard: React.FC<JobCardProps> = ({ industry, role, location, glow
       width: CARD.width,
       height: CARD.height,
       flexShrink: 0,
-      background: glow ? "rgba(8,32,30,0.52)" : "rgba(5,24,22,0.42)",
-      backdropFilter: "blur(14px)",
-      WebkitBackdropFilter: "blur(14px)",
-      border: `1px solid ${glow ? "rgba(0,207,206,0.55)" : "rgba(0,207,206,0.16)"}`,
+      background: "rgba(3, 16, 15, 0.22)",
+      backdropFilter: "blur(28px)",
+      WebkitBackdropFilter: "blur(28px)",
+      border: `1px solid rgba(0,207,206,${glow ? "0.65" : "0.35"})`,
       borderRadius: CARD.borderRadius,
       padding: "20px 22px",
       boxSizing: "border-box" as const,
       boxShadow: glow
-        ? "0 0 0 1px rgba(0,207,206,0.25), 0 0 22px rgba(0,207,206,0.22), 0 6px 28px rgba(0,0,0,0.55), inset 0 1px 0 rgba(255,255,255,0.06)"
-        : "0 4px 24px rgba(0,0,0,0.45), inset 0 1px 0 rgba(255,255,255,0.03)",
+        ? "0 0 0 1px rgba(0,207,206,0.20), 0 0 36px rgba(0,207,206,0.30), 0 8px 32px rgba(0,0,0,0.60), inset 0 1px 0 rgba(255,255,255,0.18), inset 0 0 24px rgba(0,207,206,0.06)"
+        : "0 0 0 1px rgba(0,207,206,0.08), 0 0 22px rgba(0,207,206,0.12), 0 6px 28px rgba(0,0,0,0.55), inset 0 1px 0 rgba(255,255,255,0.12), inset 0 0 16px rgba(0,207,206,0.04)",
       fontFamily: fontStack,
     }}
   >

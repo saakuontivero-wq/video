@@ -7,6 +7,17 @@ const SCENE_START  = 420;
 const MOCKUP_ENTER = 440;
 const SCROLL_END   = 580;
 
+const GLASS_BG     = "rgba(3, 16, 15, 0.22)";
+const GLASS_BLUR   = "blur(28px)";
+const GLASS_BORDER = "1px solid rgba(0,207,206,0.38)";
+const GLASS_SHADOW = [
+  "0 0 0 1px rgba(0,207,206,0.10)",
+  "0 0 50px rgba(0,207,206,0.18)",
+  "0 14px 55px rgba(0,0,0,0.60)",
+  "inset 0 1px 0 rgba(255,255,255,0.16)",
+  "inset 0 0 30px rgba(0,207,206,0.05)",
+].join(", ");
+
 function getRowGlow(rowIndex: number, frame: number, fps: number) {
   const schedule = CONFIG.rowGlowSchedule.find(r => r.row === rowIndex);
   if (!schedule) return {};
@@ -25,8 +36,8 @@ function getRowGlow(rowIndex: number, frame: number, fps: number) {
   const intensity = Math.min(p, 1) * fadeOut;
 
   return {
-    backgroundColor: `rgba(0,207,206,${interpolate(intensity, [0, 1], [0, 0.10])})`,
-    boxShadow: `inset 0 0 0 1px rgba(0,207,206,${interpolate(intensity, [0, 1], [0, 0.70])}), 0 0 24px rgba(0,207,206,${interpolate(intensity, [0, 1], [0, 0.28])})`,
+    backgroundColor: `rgba(0,207,206,${interpolate(intensity, [0, 1], [0, 0.12])})`,
+    boxShadow: `inset 0 0 0 1px rgba(0,207,206,${interpolate(intensity, [0, 1], [0, 0.75])}), 0 0 28px rgba(0,207,206,${interpolate(intensity, [0, 1], [0, 0.32])})`,
   };
 }
 
@@ -45,7 +56,7 @@ export const BrowserMockup: React.FC<{ opacity: number }> = ({ opacity }) => {
   return (
     <div style={{ position: "absolute", inset: 0, display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", opacity, fontFamily: fontStack }}>
 
-      {/* Eyebrow with pulsing square dot */}
+      {/* Eyebrow */}
       <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 16, opacity: ewS, transform: `translateY(${interpolate(ewS,[0,1],[24,0])}px)` }}>
         <div style={{ width: 7, height: 7, backgroundColor: COLORS.accent, borderRadius: 1, opacity: dotPulse, boxShadow: "0 0 6px rgba(0,207,206,0.5)" }} />
         <span style={{ fontSize: 18, fontWeight: 400, letterSpacing: "0.18em", textTransform: "uppercase" as const, color: COLORS.textDim, textShadow: GLOW_TEXT_MINIMAL }}>
@@ -63,33 +74,33 @@ export const BrowserMockup: React.FC<{ opacity: number }> = ({ opacity }) => {
         </div>
       </div>
 
-      {/* Browser — glass panel, 760×559px */}
+      {/* Browser glass panel — 760×559px */}
       <div
         style={{
           width: BROWSER.width,
           height: BROWSER.totalHeight,
-          background: "rgba(5, 22, 20, 0.36)",
-          backdropFilter: "blur(20px)",
-          WebkitBackdropFilter: "blur(20px)",
-          border: "1px solid rgba(0,207,206,0.22)",
+          background: GLASS_BG,
+          backdropFilter: GLASS_BLUR,
+          WebkitBackdropFilter: GLASS_BLUR,
+          border: GLASS_BORDER,
           borderRadius: BROWSER.borderRadius,
           overflow: "hidden",
           flexShrink: 0,
-          boxShadow: "0 8px 44px rgba(0,0,0,0.55), inset 0 1px 0 rgba(255,255,255,0.05), inset 0 0 0 1px rgba(0,207,206,0.06)",
+          boxShadow: GLASS_SHADOW,
           opacity: interpolate(mockupS, [0, 0.3, 1], [0, 0, 1]),
           transform: `translateY(${interpolate(mockupS,[0,1],[50,0])}px) scale(${interpolate(mockupS,[0,1],[0.97,1])})`,
         }}
       >
         {/* Header bar — 19px */}
-        <div style={{ height: BROWSER.headerHeight, background: "rgba(4, 15, 13, 0.70)", display: "flex", alignItems: "center", padding: "0 14px", gap: 6, borderBottom: "1px solid rgba(0,207,206,0.14)" }}>
+        <div style={{ height: BROWSER.headerHeight, background: "rgba(2, 10, 10, 0.55)", display: "flex", alignItems: "center", padding: "0 14px", gap: 6, borderBottom: "1px solid rgba(0,207,206,0.16)" }}>
           {["#FF5F57","#FFBD2E","#28C840"].map((c, i) => (
             <div key={i} style={{ width: 7, height: 7, borderRadius: "50%", backgroundColor: c }} />
           ))}
-          <span style={{ fontSize: 10, color: "#3a5555", marginLeft: 8 }}>{CONFIG.companyUrl} / reclutamiento</span>
+          <span style={{ fontSize: 10, color: "#3a6060", marginLeft: 8 }}>{CONFIG.companyUrl} / reclutamiento</span>
         </div>
 
         {/* Search header — 106px */}
-        <div style={{ height: BROWSER.searchBarHeight, padding: "0 16px", display: "flex", flexDirection: "column", justifyContent: "center", borderBottom: "1px solid rgba(0,207,206,0.09)" }}>
+        <div style={{ height: BROWSER.searchBarHeight, padding: "0 16px", display: "flex", flexDirection: "column", justifyContent: "center", borderBottom: "1px solid rgba(0,207,206,0.10)" }}>
           <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
             <span style={{ fontSize: 24, fontWeight: 600, color: COLORS.textPrimary }}>Búsquedas activas</span>
             <span style={{ fontSize: 16, fontWeight: 600, color: COLORS.accent }}>5 DE 247</span>
@@ -97,13 +108,13 @@ export const BrowserMockup: React.FC<{ opacity: number }> = ({ opacity }) => {
         </div>
 
         {/* Filter pills — 44px */}
-        <div style={{ height: BROWSER.filterBarHeight, padding: "0 16px", display: "flex", alignItems: "center", gap: 7, overflow: "hidden", borderBottom: "1px solid rgba(0,207,206,0.09)" }}>
+        <div style={{ height: BROWSER.filterBarHeight, padding: "0 16px", display: "flex", alignItems: "center", gap: 7, overflow: "hidden", borderBottom: "1px solid rgba(0,207,206,0.10)" }}>
           {["Todos los roles ▾","Tecnologías ▾","Niveles ▾"].map((f, i) => (
-            <div key={i} style={{ fontSize: 13, fontWeight: 500, padding: "3px 9px", background: "rgba(0,207,206,0.05)", border: "1px solid rgba(0,207,206,0.12)", borderRadius: 6, color: COLORS.textDim, whiteSpace: "nowrap" as const }}>
+            <div key={i} style={{ fontSize: 13, fontWeight: 500, padding: "3px 9px", background: "rgba(0,207,206,0.06)", backdropFilter: "blur(8px)", border: "1px solid rgba(0,207,206,0.20)", borderRadius: 6, color: COLORS.textDim, whiteSpace: "nowrap" as const }}>
               {f}
             </div>
           ))}
-          <div style={{ fontSize: 13, fontWeight: 500, padding: "3px 9px", background: "rgba(0,207,206,0.05)", border: "1px solid rgba(0,207,206,0.12)", borderRadius: 6, color: COLORS.textDim, display: "flex", alignItems: "center", gap: 5, whiteSpace: "nowrap" as const }}>
+          <div style={{ fontSize: 13, fontWeight: 500, padding: "3px 9px", background: "rgba(0,207,206,0.06)", backdropFilter: "blur(8px)", border: "1px solid rgba(0,207,206,0.20)", borderRadius: 6, color: COLORS.textDim, display: "flex", alignItems: "center", gap: 5, whiteSpace: "nowrap" as const }}>
             <SquareDot size={5} /> Remoto
           </div>
         </div>
@@ -126,7 +137,7 @@ export const BrowserMockup: React.FC<{ opacity: number }> = ({ opacity }) => {
                   display: "flex",
                   alignItems: "center",
                   justifyContent: "space-between",
-                  borderBottom: "1px solid rgba(0,207,206,0.07)",
+                  borderBottom: "1px solid rgba(0,207,206,0.08)",
                   ...rowGlowStyle,
                 }}
               >
@@ -149,15 +160,15 @@ export const BrowserMockup: React.FC<{ opacity: number }> = ({ opacity }) => {
                     fontSize: 16,
                     fontWeight: 700,
                     padding: "7px 14px",
-                    background: btnActive ? COLORS.btnBg : "rgba(0,207,206,0.12)",
-                    backdropFilter: "blur(8px)",
-                    WebkitBackdropFilter: "blur(8px)",
+                    background: btnActive ? COLORS.btnBg : "rgba(0,207,206,0.10)",
+                    backdropFilter: "blur(10px)",
+                    WebkitBackdropFilter: "blur(10px)",
                     color: btnActive ? COLORS.btnText : COLORS.accent,
-                    border: `1px solid rgba(0,207,206,${btnActive ? "0" : "0.25"})`,
+                    border: `1px solid rgba(0,207,206,${btnActive ? "0" : "0.32"})`,
                     borderRadius: 8,
                     whiteSpace: "nowrap" as const,
                     flexShrink: 0,
-                    boxShadow: btnActive ? "0 0 14px rgba(0,207,206,0.45)" : "none",
+                    boxShadow: btnActive ? "0 0 18px rgba(0,207,206,0.50)" : "inset 0 1px 0 rgba(255,255,255,0.08)",
                   }}
                 >
                   Postularme
