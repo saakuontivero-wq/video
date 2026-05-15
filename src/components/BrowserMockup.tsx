@@ -1,11 +1,11 @@
 import React from "react";
 import { useCurrentFrame, useVideoConfig, spring, interpolate } from "remotion";
-import { COLORS, SPRINGS, BROWSER, CONFIG, GLOW_TEXT_MINIMAL, GLOW_TEXT_SOFT, fontStack } from "../constants/theme";
+import { COLORS, SPRINGS, BROWSER, CONFIG, GLOW_TEXT_SOFT, fontStack } from "../constants/theme";
 import { SquareDot } from "./SquareDot";
 
-const SCENE_START  = 420;
-const MOCKUP_ENTER = 440;
-const SCROLL_END   = 580;
+const SCENE_START  = 570;
+const MOCKUP_ENTER = 590;
+const SCROLL_END   = 730;
 
 const GLASS_BG     = "rgba(3, 16, 15, 0.22)";
 const GLASS_BLUR   = "blur(28px)";
@@ -45,24 +45,14 @@ export const BrowserMockup: React.FC<{ opacity: number }> = ({ opacity }) => {
   const frame = useCurrentFrame();
   const { fps } = useVideoConfig();
 
-  const dotPulse = interpolate((frame % 36) / 36, [0, 0.5, 1], [1, 0.2, 1]);
-  const scrollY  = interpolate(frame, [500, SCROLL_END], [0, -10], { extrapolateLeft: "clamp", extrapolateRight: "clamp" });
-  const mockupS  = spring({ frame: Math.max(0, frame - MOCKUP_ENTER), fps, config: SPRINGS.ui });
+  const scrollY = interpolate(frame, [650, SCROLL_END], [0, -10], { extrapolateLeft: "clamp", extrapolateRight: "clamp" });
+  const mockupS = spring({ frame: Math.max(0, frame - MOCKUP_ENTER), fps, config: SPRINGS.ui });
 
-  const ewS = spring({ frame: Math.max(0, frame - (SCENE_START + 8)),  fps, config: SPRINGS.text });
-  const h1S = spring({ frame: Math.max(0, frame - (SCENE_START + 18)), fps, config: SPRINGS.text });
-  const h2S = spring({ frame: Math.max(0, frame - (SCENE_START + 30)), fps, config: SPRINGS.text });
+  const h1S = spring({ frame: Math.max(0, frame - (SCENE_START + 8)),  fps, config: SPRINGS.text });
+  const h2S = spring({ frame: Math.max(0, frame - (SCENE_START + 20)), fps, config: SPRINGS.text });
 
   return (
     <div style={{ position: "absolute", inset: 0, display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", opacity, fontFamily: fontStack }}>
-
-      {/* Eyebrow */}
-      <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 16, opacity: ewS, transform: `translateY(${interpolate(ewS,[0,1],[24,0])}px)` }}>
-        <div style={{ width: 7, height: 7, backgroundColor: COLORS.accent, borderRadius: 1, opacity: dotPulse, boxShadow: "0 0 6px rgba(0,207,206,0.5)" }} />
-        <span style={{ fontSize: 18, fontWeight: 400, letterSpacing: "0.18em", textTransform: "uppercase" as const, color: COLORS.textDim, textShadow: GLOW_TEXT_MINIMAL }}>
-          {CONFIG.copy.s4.ew}
-        </span>
-      </div>
 
       {/* Heading */}
       <div style={{ textAlign: "center", marginBottom: 20 }}>

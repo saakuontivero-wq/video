@@ -3,8 +3,8 @@ import { useCurrentFrame, useVideoConfig, spring, interpolate } from "remotion";
 import { JobCard } from "./JobCard";
 import { CONFIG, COLORS, SPRINGS, CARD, GLOW_TEXT_MINIMAL, GLOW_TEXT_SOFT, fontStack } from "../constants/theme";
 
-const SCENE_START  = 180;
-const FIRST_DELAY  = 215;
+const SCENE_START  = 255;
+const FIRST_DELAY  = 290;
 const CARD_STAGGER = 10;   // frames between each card
 
 export const JobCardsGrid: React.FC<{ opacity: number }> = ({ opacity }) => {
@@ -19,7 +19,7 @@ export const JobCardsGrid: React.FC<{ opacity: number }> = ({ opacity }) => {
     <div style={{ position: "absolute", inset: 0, display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", opacity, fontFamily: fontStack }}>
 
       {/* Eyebrow */}
-      <div style={{ fontSize: 18, fontWeight: 400, letterSpacing: "0.18em", textTransform: "uppercase" as const, color: COLORS.textDim, marginBottom: 16, textShadow: GLOW_TEXT_MINIMAL, opacity: ewS, transform: `translateY(${interpolate(ewS,[0,1],[24,0])}px)` }}>
+      <div style={{ fontSize: 22, fontWeight: 400, letterSpacing: "0.18em", textTransform: "uppercase" as const, color: COLORS.textDim, marginBottom: 20, textShadow: GLOW_TEXT_MINIMAL, opacity: ewS, transform: `translateY(${interpolate(ewS,[0,1],[24,0])}px)` }}>
         {CONFIG.copy.s3.ew}
       </div>
 

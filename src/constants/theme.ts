@@ -99,10 +99,10 @@ export const CONFIG = {
   },
 
   rowGlowSchedule: [
-    { row: 0, start: 470, duration: 45 },
-    { row: 1, start: 510, duration: 45 },
-    { row: 2, start: 550, duration: 35 },
-    { row: 3, start: 575, duration: 35 },
-    { row: 4, start: 595, duration: 30 },
+    { row: 0, start: 620, duration: 45 },
+    { row: 1, start: 660, duration: 45 },
+    { row: 2, start: 700, duration: 35 },
+    { row: 3, start: 725, duration: 35 },
+    { row: 4, start: 745, duration: 30 },
   ],
 };
