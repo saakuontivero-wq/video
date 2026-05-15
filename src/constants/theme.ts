@@ -1,22 +1,29 @@
-// Colors measured pixel-by-pixel from reference video (480×848) scaled ×1.833
-
+// ─── Palette — centered on #00CFCE ──────────────────────────────────────────
 export const COLORS = {
-  outerBg:       '#050505',
-  innerBg:       '#030e0b',
-  gradientPeak:  '#133830',
-  gradientMid:   '#0c2923',
-  accent:        '#3de9c2',
-  cardBg:        '#0b221d',
-  cardBorder:    '#1a3530',
-  cardBgAlt:     '#0a1f1b',
-  cardHover:     '#0d2820',
-  textPrimary:   '#ffffff',
-  textSecondary: '#aabbaa',
-  btnBg:         '#4fddbd',
-  btnText:       '#051c17',
-  progressFill:  '#3de9c2',
+  outerBg:          '#050505',
+  innerBg:          '#020d0d',
+  gradientPeak:     'rgba(0,60,58,1)',
+  gradientMid:      'rgba(0,40,38,0.8)',
+  accent:           '#00CFCE',
+  accentDim:        '#00a8a7',
+  textPrimary:      '#ffffff',
+  textSecondary:    '#7ecfce',
+  textDim:          '#4a9998',
+  cardBg:           '#041818',
+  cardBorder:       '#0d3535',
+  cardBorderActive: '#00CFCE',
+  browserBg:        '#031414',
+  browserHeader:    '#041a1a',
+  btnBg:            '#00CFCE',
+  btnText:          '#020d0d',
+  rowHighlight:     '#061f1f',
 };
 
+// ─── Glow helpers ─────────────────────────────────────────────────────────────
+export const GLOW_TEXT_SOFT    = '0 0 20px rgba(0,207,206,0.25), 0 0 40px rgba(0,207,206,0.10)';
+export const GLOW_TEXT_MINIMAL = '0 0 12px rgba(0,207,206,0.15)';
+
+// ─── Springs ──────────────────────────────────────────────────────────────────
 export const SPRINGS = {
   text:  { damping: 18, stiffness: 120, mass: 1.0 },
   ui:    { damping: 15, stiffness: 100, mass: 1.0 },
@@ -24,36 +31,36 @@ export const SPRINGS = {
   micro: { damping: 10, stiffness: 200, mass: 0.5 },
 };
 
+// ─── Component constants ──────────────────────────────────────────────────────
 export const CARD = {
-  width:        352,
-  height:       132,
-  borderRadius: 18,
-  gap:          22,
-  rowGap:       20,
-  dotSize:      8,
+  width: 346, height: 128,
+  borderRadius: 14,
+  gap: 20,      // gap entre columnas
+  rowGap: 16,   // gap entre filas
 };
 
 export const BROWSER = {
-  width:           760,
-  borderRadius:    18,
-  headerHeight:    44,
-  rowHeight:       73,
-  btnBorderRadius: 10,
+  width: 760, borderRadius: 16,
+  headerHeight: 42, rowHeight: 68,
 };
 
-export const UPLOAD_CARD = {
-  width:        733,
-  borderRadius: 18,
-  padding:      '32px 36px',
-  barHeight:    6,
+export const UPLOAD = {
+  width: 720, borderRadius: 16, barHeight: 5,
 };
 
-export const CONFIG = {
-  companyUrl: 'blustudioinc.com',
-
+// ─── Layout ────────────────────────────────────────────────────────────────────
+export const LAYOUT = {
   canvas:  { width: 1080, height: 1920 },
   inner:   { x: 100, y: 100, width: 880, height: 1720, borderRadius: 60 },
-  content: { padding: 60, width: 760, height: 1600 },
+  content: { x: 60, y: 300, width: 760, height: 1120 },
+};
+
+// ─── Font ─────────────────────────────────────────────────────────────────────
+export const fontStack = `'Helvetica Neue', Helvetica, Arial, sans-serif`;
+
+// ─── App config ────────────────────────────────────────────────────────────────
+export const CONFIG = {
+  companyUrl: 'blustudioinc.com',
 
   jobCards: [
     { industry: 'ASUS',       role: 'Account Manager', location: 'Argentina' },
@@ -67,30 +74,33 @@ export const CONFIG = {
   ],
 
   browserListings: [
-    { company: 'ASUS Argentina', role: 'Account Manager — B2B',   level: 'Semi Senior', modality: 'Remoto',     location: 'AMBA',     highlight: false },
-    { company: 'Healthtech',     role: 'Full Stack Engineer',      level: 'Semi Senior', modality: 'Híbrido',    location: 'CABA',     highlight: true  },
-    { company: 'E-commerce',     role: 'Data Analyst',             level: 'Semi Senior', modality: 'Presencial', location: 'Córdoba',  highlight: false },
-    { company: 'SaaS Platform',  role: 'Product Designer (UX/UI)', level: 'Senior',      modality: 'Remoto',     location: 'LATAM',    highlight: false },
-    { company: 'Fintech',        role: 'DevOps Engineer',          level: 'Senior',      modality: 'Remoto',     location: 'Global',   highlight: false },
+    { company: 'ASUS Argentina', role: 'Account Manager — B2B',   level: 'Semi Senior', modality: 'Remoto',     location: 'AMBA'     },
+    { company: 'Healthtech',     role: 'Full Stack Engineer',      level: 'Semi Senior', modality: 'Híbrido',    location: 'CABA'     },
+    { company: 'E-commerce',     role: 'Data Analyst',             level: 'Semi Senior', modality: 'Presencial', location: 'Córdoba'  },
+    { company: 'SaaS Platform',  role: 'Product Designer (UX/UI)', level: 'Senior',      modality: 'Remoto',     location: 'LATAM'    },
+    { company: 'Fintech',        role: 'DevOps Engineer',          level: 'Senior',      modality: 'Remoto',     location: 'Global'   },
   ],
 
   upload: {
-    fileName:      'Ana_Garcia_CV.pdf',
-    size:          '243 KB',
-    matchRole:     'Full Stack Engineer',
-    matchCompany:  'Healthtech',
-    matchCity:     'CABA',
-    matchScore:    96,
-    totalSearches: 247,
+    fileName: 'Ana_Garcia_CV.pdf', size: '243 KB',
+    matchRole: 'Full Stack Engineer', matchCompany: 'Healthtech',
+    matchCity: 'CABA', matchScore: 96, totalSearches: 247,
   },
 
   copy: {
-    s1: '¿Buscás talento?',
+    s1: { hook: '¿Buscás talento?' },
     s2: { l1: 'Está a tu',             l2: 'alcance.'                  },
     s3: { ew: 'AHORA MISMO',           l1: 'Cientos de empresas',       l2: 'buscan talento.'           },
-    s4: { ew: '247 BÚSQUEDAS ACTIVAS', l1: 'Mirá qué se',              l2: 'mueve.'                    },
-    s5: { ew: 'TU MOVIMIENTO',         l1: 'Dejanos tu CV.',            l2: 'Nosotros lo compartimos.'  },
-    s6: { l1: 'El trabajo que',        l2: 'estás esperando',           l3: 'te espera.',
-          ew: 'SUBÍ TU CV · SIN FORMULARIOS' },
+    s4: { ew: '247 BÚSQUEDAS ACTIVAS', l1: 'Mirá qué se',               l2: 'mueve.'                    },
+    s5: { ew: 'TU MOVIMIENTO',         l1: 'Dejanos tu CV.',             l2: 'Nosotros lo compartimos.'  },
+    s6: { l1: 'El trabajo que',        l2: 'estás esperando',            l3: 'te espera.',
+          cta: 'blustudioinc.com',     ew: 'SUBÍ TU CV · SIN FORMULARIOS' },
   },
+
+  rowGlowSchedule: [
+    { row: 0, start: 470, duration: 45 },
+    { row: 1, start: 510, duration: 45 },
+    { row: 2, start: 550, duration: 35 },
+    { row: 3, start: 575, duration: 35 },
+  ],
 };

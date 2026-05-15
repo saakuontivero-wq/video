@@ -1,5 +1,6 @@
 import React from "react";
-import { COLORS, CARD } from "../constants/theme";
+import { COLORS, CARD, GLOW_TEXT_MINIMAL, fontStack } from "../constants/theme";
+import { SquareDot } from "./SquareDot";
 
 interface JobCardProps {
   industry: string;
@@ -11,28 +12,39 @@ interface JobCardProps {
 export const JobCard: React.FC<JobCardProps> = ({ industry, role, location, glow }) => (
   <div
     style={{
-      width:        CARD.width,
-      height:       CARD.height,
-      flexShrink:   0,
-      background:   COLORS.cardBg,
-      border:       `1px solid ${COLORS.cardBorder}`,
+      width: CARD.width,
+      height: CARD.height,
+      flexShrink: 0,
+      background: COLORS.cardBg,
+      border: `1px solid ${COLORS.cardBorder}`,
       borderRadius: CARD.borderRadius,
-      padding:      '22px 24px',
-      boxSizing:    'border-box' as const,
-      boxShadow:    glow
-        ? '0 0 0 1px rgba(61,233,194,0.25), 0 4px 20px rgba(0,0,0,0.5)'
-        : '0 2px 12px rgba(0,0,0,0.6)',
+      padding: "20px 22px",
+      boxSizing: "border-box" as const,
+      boxShadow: glow
+        ? "0 0 0 1px rgba(0,207,206,0.35), 0 4px 20px rgba(0,0,0,0.5)"
+        : "0 2px 16px rgba(0,0,0,0.7)",
+      fontFamily: fontStack,
     }}
   >
-    <div style={{ fontSize: 15, fontWeight: 400, letterSpacing: '0.12em', textTransform: 'uppercase' as const, color: COLORS.accent, marginBottom: 8 }}>
+    <div
+      style={{
+        fontSize: 13,
+        fontWeight: 500,
+        letterSpacing: "0.14em",
+        textTransform: "uppercase" as const,
+        color: COLORS.accent,
+        marginBottom: 8,
+        textShadow: GLOW_TEXT_MINIMAL,
+      }}
+    >
       {industry}
     </div>
-    <div style={{ fontSize: 29, fontWeight: 600, color: COLORS.textPrimary, lineHeight: 1.1, marginBottom: 10 }}>
+    <div style={{ fontSize: 26, fontWeight: 600, color: COLORS.textPrimary, lineHeight: 1.1, marginBottom: 10 }}>
       {role}
     </div>
-    <div style={{ display: 'flex', alignItems: 'center', gap: 7 }}>
-      <div style={{ width: CARD.dotSize, height: CARD.dotSize, borderRadius: '50%', backgroundColor: COLORS.accent, flexShrink: 0 }} />
-      <span style={{ fontSize: 16, color: COLORS.textSecondary }}>{location}</span>
+    <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
+      <SquareDot />
+      <span style={{ fontSize: 14, color: COLORS.textSecondary }}>{location}</span>
     </div>
   </div>
 );
