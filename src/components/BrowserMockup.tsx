@@ -63,30 +63,33 @@ export const BrowserMockup: React.FC<{ opacity: number }> = ({ opacity }) => {
         </div>
       </div>
 
-      {/* Browser — 760×559px exact: 19+106+44+(78×5)=559 */}
+      {/* Browser — glass panel, 760×559px */}
       <div
         style={{
           width: BROWSER.width,
           height: BROWSER.totalHeight,
-          background: COLORS.browserBg,
-          border: `1px solid ${COLORS.cardBorder}`,
+          background: "rgba(5, 22, 20, 0.36)",
+          backdropFilter: "blur(20px)",
+          WebkitBackdropFilter: "blur(20px)",
+          border: "1px solid rgba(0,207,206,0.22)",
           borderRadius: BROWSER.borderRadius,
           overflow: "hidden",
           flexShrink: 0,
+          boxShadow: "0 8px 44px rgba(0,0,0,0.55), inset 0 1px 0 rgba(255,255,255,0.05), inset 0 0 0 1px rgba(0,207,206,0.06)",
           opacity: interpolate(mockupS, [0, 0.3, 1], [0, 0, 1]),
           transform: `translateY(${interpolate(mockupS,[0,1],[50,0])}px) scale(${interpolate(mockupS,[0,1],[0.97,1])})`,
         }}
       >
-        {/* Header bar — dots + URL — 19px */}
-        <div style={{ height: BROWSER.headerHeight, background: COLORS.browserHeader, display: "flex", alignItems: "center", padding: "0 14px", gap: 6, borderBottom: `1px solid ${COLORS.cardBorder}` }}>
+        {/* Header bar — 19px */}
+        <div style={{ height: BROWSER.headerHeight, background: "rgba(4, 15, 13, 0.70)", display: "flex", alignItems: "center", padding: "0 14px", gap: 6, borderBottom: "1px solid rgba(0,207,206,0.14)" }}>
           {["#FF5F57","#FFBD2E","#28C840"].map((c, i) => (
             <div key={i} style={{ width: 7, height: 7, borderRadius: "50%", backgroundColor: c }} />
           ))}
-          <span style={{ fontSize: 10, color: "#2a4040", marginLeft: 8 }}>{CONFIG.companyUrl} / reclutamiento</span>
+          <span style={{ fontSize: 10, color: "#3a5555", marginLeft: 8 }}>{CONFIG.companyUrl} / reclutamiento</span>
         </div>
 
-        {/* Search header — "Búsquedas activas" — 106px */}
-        <div style={{ height: BROWSER.searchBarHeight, padding: "0 16px", display: "flex", flexDirection: "column", justifyContent: "center", borderBottom: `1px solid ${COLORS.cardBorder}` }}>
+        {/* Search header — 106px */}
+        <div style={{ height: BROWSER.searchBarHeight, padding: "0 16px", display: "flex", flexDirection: "column", justifyContent: "center", borderBottom: "1px solid rgba(0,207,206,0.09)" }}>
           <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
             <span style={{ fontSize: 24, fontWeight: 600, color: COLORS.textPrimary }}>Búsquedas activas</span>
             <span style={{ fontSize: 16, fontWeight: 600, color: COLORS.accent }}>5 DE 247</span>
@@ -94,13 +97,13 @@ export const BrowserMockup: React.FC<{ opacity: number }> = ({ opacity }) => {
         </div>
 
         {/* Filter pills — 44px */}
-        <div style={{ height: BROWSER.filterBarHeight, padding: "0 16px", display: "flex", alignItems: "center", gap: 7, overflow: "hidden", borderBottom: `1px solid ${COLORS.cardBorder}` }}>
+        <div style={{ height: BROWSER.filterBarHeight, padding: "0 16px", display: "flex", alignItems: "center", gap: 7, overflow: "hidden", borderBottom: "1px solid rgba(0,207,206,0.09)" }}>
           {["Todos los roles ▾","Tecnologías ▾","Niveles ▾"].map((f, i) => (
-            <div key={i} style={{ fontSize: 13, fontWeight: 500, padding: "3px 9px", background: "rgba(0,207,206,0.04)", border: "1px solid rgba(0,207,206,0.1)", borderRadius: 6, color: COLORS.textDim, whiteSpace: "nowrap" as const }}>
+            <div key={i} style={{ fontSize: 13, fontWeight: 500, padding: "3px 9px", background: "rgba(0,207,206,0.05)", border: "1px solid rgba(0,207,206,0.12)", borderRadius: 6, color: COLORS.textDim, whiteSpace: "nowrap" as const }}>
               {f}
             </div>
           ))}
-          <div style={{ fontSize: 13, fontWeight: 500, padding: "3px 9px", background: "rgba(0,207,206,0.04)", border: "1px solid rgba(0,207,206,0.1)", borderRadius: 6, color: COLORS.textDim, display: "flex", alignItems: "center", gap: 5, whiteSpace: "nowrap" as const }}>
+          <div style={{ fontSize: 13, fontWeight: 500, padding: "3px 9px", background: "rgba(0,207,206,0.05)", border: "1px solid rgba(0,207,206,0.12)", borderRadius: 6, color: COLORS.textDim, display: "flex", alignItems: "center", gap: 5, whiteSpace: "nowrap" as const }}>
             <SquareDot size={5} /> Remoto
           </div>
         </div>
@@ -123,7 +126,7 @@ export const BrowserMockup: React.FC<{ opacity: number }> = ({ opacity }) => {
                   display: "flex",
                   alignItems: "center",
                   justifyContent: "space-between",
-                  borderBottom: "1px solid rgba(0,207,206,0.06)",
+                  borderBottom: "1px solid rgba(0,207,206,0.07)",
                   ...rowGlowStyle,
                 }}
               >
@@ -146,12 +149,15 @@ export const BrowserMockup: React.FC<{ opacity: number }> = ({ opacity }) => {
                     fontSize: 16,
                     fontWeight: 700,
                     padding: "7px 14px",
-                    background: COLORS.btnBg,
-                    color: COLORS.btnText,
+                    background: btnActive ? COLORS.btnBg : "rgba(0,207,206,0.12)",
+                    backdropFilter: "blur(8px)",
+                    WebkitBackdropFilter: "blur(8px)",
+                    color: btnActive ? COLORS.btnText : COLORS.accent,
+                    border: `1px solid rgba(0,207,206,${btnActive ? "0" : "0.25"})`,
                     borderRadius: 8,
                     whiteSpace: "nowrap" as const,
                     flexShrink: 0,
-                    boxShadow: btnActive ? "0 0 14px rgba(0,207,206,0.4)" : "none",
+                    boxShadow: btnActive ? "0 0 14px rgba(0,207,206,0.45)" : "none",
                   }}
                 >
                   Postularme
