@@ -1,6 +1,5 @@
 import React from "react";
-import { useCurrentFrame, useVideoConfig, spring, interpolate } from "remotion";
-import { loadFont } from "@remotion/google-fonts/Inter";
+import { useCurrentFrame, useVideoConfig, spring, interpolate, staticFile, delayRender, continueRender } from "remotion";
 import { Background } from "./components/Background";
 import { LiveBadge } from "./components/LiveBadge";
 import { JobCardsGrid } from "./components/JobCardsGrid";
@@ -9,7 +8,22 @@ import { UploadCard } from "./components/UploadCard";
 import { BluLogo } from "./components/BluLogo";
 import { COLORS } from "./constants/theme";
 
-const { fontFamily } = loadFont();
+const fontFamily = "Inter, sans-serif";
+
+function loadInterFont() {
+  const weights: [number, string][] = [
+    [300, staticFile("fonts/inter-300.ttf")],
+    [400, staticFile("fonts/inter-400.ttf")],
+    [600, staticFile("fonts/inter-600.ttf")],
+    [700, staticFile("fonts/inter-700.ttf")],
+    [800, staticFile("fonts/inter-800.ttf")],
+  ];
+  const style = document.createElement("style");
+  style.textContent = weights
+    .map(([w, url]) => `@font-face{font-family:'Inter';font-weight:${w};font-style:normal;src:url('${url}') format('truetype');}`)
+    .join("\n");
+  document.head.appendChild(style);
+}
 
 // Scene boundaries
 const S1_START = 0,   S1_END = 90;
@@ -78,6 +92,12 @@ const TextScene: React.FC<{
 export const RecruitingVideo: React.FC = () => {
   const frame = useCurrentFrame();
   const { fps } = useVideoConfig();
+
+  const [handle] = React.useState(() => delayRender("Loading Inter font"));
+  React.useEffect(() => {
+    loadInterFont();
+    document.fonts.ready.then(() => continueRender(handle));
+  }, [handle]);
 
   const badgeOpacity = interpolate(frame, [10, 25], [0, 1], { extrapolateLeft: "clamp", extrapolateRight: "clamp" });
 
