@@ -155,33 +155,41 @@ export const RecruitingVideo: React.FC = () => {
                 opacity: sceneOp(frame, S_COUNTER.start, S_COUNTER.end),
               }}
             >
-              <div style={{ textAlign: "center" }}>
+              {/* inline-flex column con alignItems stretch hace que el label
+                  herede exactamente el ancho del número */}
+              <div
+                style={{
+                  display: "inline-flex",
+                  flexDirection: "column",
+                  alignItems: "stretch",
+                  opacity: counterEnterS,
+                  transform: `translateY(${interpolate(counterEnterS, [0, 1], [30, 0])}px)`,
+                }}
+              >
                 <div
                   style={{
-                    fontSize: 184,
+                    fontSize: 220,
                     fontWeight: 700,
                     color: COLORS.accent,
                     lineHeight: 1.0,
                     fontFamily: fontStack,
                     letterSpacing: "-0.03em",
                     textShadow: "0 0 60px rgba(0,207,206,0.55), 0 0 120px rgba(0,207,206,0.28)",
-                    opacity: counterEnterS,
-                    transform: `translateY(${interpolate(counterEnterS, [0, 1], [30, 0])}px)`,
+                    textAlign: "center",
                   }}
                 >
                   {counterValue}
                 </div>
                 <div
                   style={{
-                    fontSize: 52,
+                    fontSize: 40,
                     fontWeight: 400,
-                    letterSpacing: "0.22em",
-                    textTransform: "uppercase" as const,
                     color: COLORS.textPrimary,
-                    marginTop: 28,
+                    marginTop: 24,
                     fontFamily: fontStack,
-                    opacity: counterEnterS,
-                    transform: `translateY(${interpolate(counterEnterS, [0, 1], [20, 0])}px)`,
+                    textAlign: "justify" as const,
+                    textAlignLast: "justify" as const,
+                    letterSpacing: 0,
                   }}
                 >
                   BÚSQUEDAS ACTIVAS
