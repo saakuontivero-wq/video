@@ -33,7 +33,7 @@ export const SPRINGS = {
 
 // ─── Component constants ──────────────────────────────────────────────────────
 export const CARD = {
-  width: 346, height: 128,
+  width: 346, height: 142,
   borderRadius: 14,
   gap: 20,      // gap entre columnas
   rowGap: 16,   // gap entre filas

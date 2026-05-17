@@ -30,23 +30,23 @@ export const JobCard: React.FC<JobCardProps> = ({ industry, role, location, glow
   >
     <div
       style={{
-        fontSize: 13,
+        fontSize: 16,
         fontWeight: 500,
         letterSpacing: "0.14em",
         textTransform: "uppercase" as const,
         color: COLORS.accent,
-        marginBottom: 8,
+        marginBottom: 10,
         textShadow: GLOW_TEXT_MINIMAL,
       }}
     >
       {industry}
     </div>
-    <div style={{ fontSize: 26, fontWeight: 600, color: COLORS.textPrimary, lineHeight: 1.1, marginBottom: 10 }}>
+    <div style={{ fontSize: 29, fontWeight: 600, color: COLORS.textPrimary, lineHeight: 1.1, marginBottom: 12 }}>
       {role}
     </div>
     <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
       <SquareDot />
-      <span style={{ fontSize: 14, color: COLORS.textSecondary }}>{location}</span>
+      <span style={{ fontSize: 17, color: COLORS.textSecondary }}>{location}</span>
     </div>
   </div>
 );

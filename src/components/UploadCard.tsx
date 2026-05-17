@@ -36,16 +36,16 @@ export const UploadCard: React.FC<{ opacity: number }> = ({ opacity }) => {
     <div style={{ position: "absolute", inset: 0, display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", opacity, fontFamily: fontStack }}>
 
       {/* Eyebrow */}
-      <div style={{ fontSize: 22, fontWeight: 400, letterSpacing: "0.18em", textTransform: "uppercase" as const, color: COLORS.textDim, marginBottom: 20, textShadow: GLOW_TEXT_MINIMAL, opacity: ewS, transform: `translateY(${interpolate(ewS,[0,1],[24,0])}px)` }}>
+      <div style={{ fontSize: 26, fontWeight: 400, letterSpacing: "0.18em", textTransform: "uppercase" as const, color: COLORS.textDim, marginBottom: 26, textShadow: GLOW_TEXT_MINIMAL, opacity: ewS, transform: `translateY(${interpolate(ewS,[0,1],[24,0])}px)` }}>
         {CONFIG.copy.s5.ew}
       </div>
 
       {/* Heading */}
-      <div style={{ textAlign: "center", marginBottom: 24 }}>
-        <div style={{ fontSize: 68, fontWeight: 300, color: COLORS.textPrimary, lineHeight: 1.1, letterSpacing: "-0.01em", opacity: h1S, transform: `translateY(${interpolate(h1S,[0,1],[24,0])}px)` }}>
+      <div style={{ textAlign: "center", marginBottom: 32 }}>
+        <div style={{ fontSize: 72, fontWeight: 300, color: COLORS.textPrimary, lineHeight: 1.1, letterSpacing: "-0.01em", opacity: h1S, transform: `translateY(${interpolate(h1S,[0,1],[24,0])}px)` }}>
           {CONFIG.copy.s5.l1}
         </div>
-        <div style={{ fontSize: 80, fontWeight: 700, color: COLORS.accent, lineHeight: 1.1, letterSpacing: "-0.02em", textShadow: GLOW_TEXT_SOFT, opacity: h2S, transform: `translateY(${interpolate(h2S,[0,1],[24,0])}px)` }}>
+        <div style={{ fontSize: 84, fontWeight: 700, color: COLORS.accent, lineHeight: 1.1, letterSpacing: "-0.02em", textShadow: GLOW_TEXT_SOFT, opacity: h2S, transform: `translateY(${interpolate(h2S,[0,1],[24,0])}px)` }}>
           {CONFIG.copy.s5.l2}
         </div>
       </div>
@@ -76,10 +76,10 @@ export const UploadCard: React.FC<{ opacity: number }> = ({ opacity }) => {
 
         {/* Status */}
         <div style={{ textAlign: "center", marginBottom: 20 }}>
-          <div style={{ fontSize: 26, fontWeight: 700, color: COLORS.textPrimary, lineHeight: 1.2 }}>
+          <div style={{ fontSize: 29, fontWeight: 700, color: COLORS.textPrimary, lineHeight: 1.2 }}>
             Encontramos tu match
           </div>
-          <div style={{ fontSize: 18, color: COLORS.textSecondary, marginTop: 5 }}>
+          <div style={{ fontSize: 21, color: COLORS.textSecondary, marginTop: 6 }}>
             1 oportunidad compatible
           </div>
         </div>
@@ -104,10 +104,10 @@ export const UploadCard: React.FC<{ opacity: number }> = ({ opacity }) => {
             <span style={{ fontSize: 9, fontWeight: 700, color: "#fff" }}>PDF</span>
           </div>
           <div style={{ flex: 1 }}>
-            <div style={{ fontSize: 18, fontWeight: 500, color: COLORS.textPrimary }}>{u.fileName}</div>
-            <div style={{ fontSize: 14, color: COLORS.textSecondary }}>{u.size} · Procesado</div>
+            <div style={{ fontSize: 21, fontWeight: 500, color: COLORS.textPrimary }}>{u.fileName}</div>
+            <div style={{ fontSize: 16, color: COLORS.textSecondary }}>{u.size} · Procesado</div>
           </div>
-          <div style={{ fontSize: 18, fontWeight: 700, color: COLORS.accent }}>✓ OK</div>
+          <div style={{ fontSize: 21, fontWeight: 700, color: COLORS.accent }}>✓ OK</div>
         </div>
 
         {/* Progress bar */}
@@ -130,10 +130,10 @@ export const UploadCard: React.FC<{ opacity: number }> = ({ opacity }) => {
         >
           <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 8 }}>
             <div>
-              <div style={{ fontSize: 20, fontWeight: 600, color: COLORS.textPrimary }}>{u.matchRole}</div>
-              <div style={{ fontSize: 16, color: COLORS.textSecondary }}>{u.matchCompany} · {u.matchCity}</div>
+              <div style={{ fontSize: 23, fontWeight: 600, color: COLORS.textPrimary }}>{u.matchRole}</div>
+              <div style={{ fontSize: 18, color: COLORS.textSecondary }}>{u.matchCompany} · {u.matchCity}</div>
             </div>
-            <div style={{ fontSize: 28, fontWeight: 700, color: COLORS.accent }}>{matchScore}%</div>
+            <div style={{ fontSize: 32, fontWeight: 700, color: COLORS.accent }}>{matchScore}%</div>
           </div>
           <div style={{ height: UPLOAD.barHeight, background: "rgba(13,53,53,0.50)", borderRadius: 3, overflow: "hidden" }}>
             <div style={{ height: "100%", width: `${matchBar}%`, background: COLORS.accent, borderRadius: 3, filter: "drop-shadow(0 0 4px rgba(0,207,206,0.6))" }} />

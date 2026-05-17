@@ -128,15 +128,15 @@ export const RecruitingVideo: React.FC = () => {
                 opacity: sceneOp(frame, S1.start, S1.end),
               }}
             >
-              <TLine text={CONFIG.copy.s1.hook} size={88} weight={300} delay={90} />
+              <TLine text={CONFIG.copy.s1.hook} size={92} weight={300} delay={90} />
             </div>
           )}
 
           {/* ── Scene 2 — Promesa ── */}
           {frame >= S2.start - 8 && frame < S3.start && (
             <div style={{ position: "absolute", inset: 0, display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", opacity: sceneOp(frame, S2.start, S2.end) }}>
-              <TLine text={CONFIG.copy.s2.l1} size={80} weight={300} delay={170} />
-              <TLine text={CONFIG.copy.s2.l2} size={98} weight={700} accent glowSoft delay={183} />
+              <TLine text={CONFIG.copy.s2.l1} size={84} weight={300} delay={170} />
+              <TLine text={CONFIG.copy.s2.l2} size={102} weight={700} accent glowSoft delay={183} />
             </div>
           )}
 
@@ -158,7 +158,7 @@ export const RecruitingVideo: React.FC = () => {
               <div style={{ textAlign: "center" }}>
                 <div
                   style={{
-                    fontSize: 160,
+                    fontSize: 164,
                     fontWeight: 700,
                     color: COLORS.accent,
                     lineHeight: 1.0,
@@ -173,12 +173,12 @@ export const RecruitingVideo: React.FC = () => {
                 </div>
                 <div
                   style={{
-                    fontSize: 28,
+                    fontSize: 32,
                     fontWeight: 400,
                     letterSpacing: "0.22em",
                     textTransform: "uppercase" as const,
                     color: COLORS.textPrimary,
-                    marginTop: 16,
+                    marginTop: 20,
                     fontFamily: fontStack,
                     opacity: counterEnterS,
                     transform: `translateY(${interpolate(counterEnterS, [0, 1], [20, 0])}px)`,
@@ -210,9 +210,9 @@ export const RecruitingVideo: React.FC = () => {
                 opacity: sceneOp(frame, S6.start, S6.end),
               }}
             >
-              <TLine text={CONFIG.copy.s6.l1} size={48} weight={300} delay={902} ls="-0.01em" />
-              <TLine text={CONFIG.copy.s6.l2} size={48} weight={300} delay={906} ls="-0.01em" />
-              <TLine text={CONFIG.copy.s6.l3} size={88} weight={700} accent glowSoft delay={920} />
+              <TLine text={CONFIG.copy.s6.l1} size={52} weight={300} delay={902} ls="-0.01em" />
+              <TLine text={CONFIG.copy.s6.l2} size={52} weight={300} delay={906} ls="-0.01em" />
+              <TLine text={CONFIG.copy.s6.l3} size={92} weight={700} accent glowSoft delay={920} />
 
               {/* CTA button */}
               <div style={{ marginTop: 40, opacity: ctaS, transform: `scale(${interpolate(ctaS,[0,1],[0.95,1])})` }}>
@@ -224,7 +224,7 @@ export const RecruitingVideo: React.FC = () => {
                     backgroundColor: "transparent",
                     display: "flex", alignItems: "center", justifyContent: "center",
                     color: COLORS.accent,
-                    fontSize: 22, fontWeight: 600,
+                    fontSize: 25, fontWeight: 600,
                     fontFamily: fontStack,
                     letterSpacing: "0.01em",
                     boxShadow: "0 0 20px rgba(0,207,206,0.20), 0 0 40px rgba(0,207,206,0.08), inset 0 0 20px rgba(0,207,206,0.05)",
@@ -235,7 +235,7 @@ export const RecruitingVideo: React.FC = () => {
               </div>
 
               {/* Eyebrow */}
-              <div style={{ marginTop: 16, fontSize: 20, fontWeight: 400, letterSpacing: "0.18em", textTransform: "uppercase" as const, color: COLORS.textDim, opacity: ewFade, textShadow: GLOW_TEXT_MINIMAL }}>
+              <div style={{ marginTop: 20, fontSize: 23, fontWeight: 400, letterSpacing: "0.18em", textTransform: "uppercase" as const, color: COLORS.textDim, opacity: ewFade, textShadow: GLOW_TEXT_MINIMAL }}>
                 {CONFIG.copy.s6.ew}
               </div>
             </div>
