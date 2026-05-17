@@ -135,8 +135,8 @@ export const RecruitingVideo: React.FC = () => {
           {/* ── Scene 2 — Promesa ── */}
           {frame >= S2.start - 8 && frame < S3.start && (
             <div style={{ position: "absolute", inset: 0, display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", opacity: sceneOp(frame, S2.start, S2.end) }}>
-              <TLine text={CONFIG.copy.s2.l1} size={84} weight={300} delay={170} />
-              <TLine text={CONFIG.copy.s2.l2} size={102} weight={700} accent glowSoft delay={183} />
+              <TLine text={CONFIG.copy.s2.l1} size={90} weight={300} delay={170} />
+              <TLine text={CONFIG.copy.s2.l2} size={108} weight={700} accent glowSoft delay={183} />
             </div>
           )}
 
@@ -158,7 +158,7 @@ export const RecruitingVideo: React.FC = () => {
               <div style={{ textAlign: "center" }}>
                 <div
                   style={{
-                    fontSize: 164,
+                    fontSize: 184,
                     fontWeight: 700,
                     color: COLORS.accent,
                     lineHeight: 1.0,
@@ -173,12 +173,12 @@ export const RecruitingVideo: React.FC = () => {
                 </div>
                 <div
                   style={{
-                    fontSize: 32,
+                    fontSize: 52,
                     fontWeight: 400,
                     letterSpacing: "0.22em",
                     textTransform: "uppercase" as const,
                     color: COLORS.textPrimary,
-                    marginTop: 20,
+                    marginTop: 28,
                     fontFamily: fontStack,
                     opacity: counterEnterS,
                     transform: `translateY(${interpolate(counterEnterS, [0, 1], [20, 0])}px)`,
