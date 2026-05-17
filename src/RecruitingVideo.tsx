@@ -116,20 +116,7 @@ export const RecruitingVideo: React.FC = () => {
           }}
         >
 
-          {/* ── Scene 0 — Logo intro ── */}
-          {frame < S1.start + 10 && (
-            <div
-              style={{
-                position: "absolute", inset: 0,
-                display: "flex", flexDirection: "column",
-                alignItems: "center", justifyContent: "center",
-                opacity: logoIntroEnter * logoIntroExit,
-                transform: `translateY(${interpolate(logoIntroEnter, [0, 1], [20, 0])}px)`,
-              }}
-            >
-              <LogoBluRecruitingFull width={826} />
-            </div>
-          )}
+          {/* ── Scene 0 — pausa inicial (fondo oscuro) ── */}
 
           {/* ── Scene 1 — Hook ── */}
           {frame >= S1.start - 8 && frame < S2.start && (
