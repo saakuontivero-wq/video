@@ -2,22 +2,20 @@ import React from "react";
 import { AbsoluteFill, useCurrentFrame, useVideoConfig, spring, interpolate } from "remotion";
 import { AnimatedBackground } from "./components/AnimatedBackground";
 import { LogoBluFinal }             from "./components/LogoBluFinal";
-import { LogoBluRecruitingFull }    from "./components/LogoBluRecruitingFull";
 import { JobCardsGrid }             from "./components/JobCardsGrid";
 import { BrowserMockup }            from "./components/BrowserMockup";
 import { UploadCard }               from "./components/UploadCard";
 import { COLORS, SPRINGS, CONFIG, GLOW_TEXT_SOFT, GLOW_TEXT_MINIMAL, fontStack, LAYOUT } from "./constants/theme";
 
 // ─── Scene boundaries ─────────────────────────────────────────────────────────
-const S_LOGO    = { start: 0,    end: 75   };
-const S1        = { start: 75,   end: 165  };
-const S2        = { start: 165,  end: 255  };
-const S3        = { start: 255,  end: 495  };
-const S_COUNTER = { start: 495,  end: 570  };
-const S4        = { start: 570,  end: 750  };
-const S5        = { start: 750,  end: 900  };
-const S6        = { start: 900,  end: 1020 };
-const S7        = { start: 1020, end: 1110 };
+const S_LOGO = { start: 0,   end: 75  };
+const S1     = { start: 75,  end: 165 };
+const S2     = { start: 165, end: 255 };
+const S3     = { start: 255, end: 495 };
+const S4     = { start: 495, end: 675 };
+const S5     = { start: 675, end: 825 };
+const S6     = { start: 825, end: 945 };
+const S7     = { start: 945, end: 1035 };
 
 function sceneOp(frame: number, start: number, end: number): number {
   const fi = interpolate(frame, [start - 8, start + 12], [0, 1], { extrapolateLeft: "clamp", extrapolateRight: "clamp" });
@@ -69,18 +67,18 @@ export const RecruitingVideo: React.FC = () => {
   const logoIntroEnter = spring({ frame: Math.max(0, frame - 5), fps, config: SPRINGS.text });
   const logoIntroExit  = interpolate(frame, [58, 74], [1, 0], { extrapolateLeft: "clamp", extrapolateRight: "clamp" });
 
-  // Counter scene
-  const counterEnterS = spring({ frame: Math.max(0, frame - S_COUNTER.start), fps, config: SPRINGS.text });
-  const counterValue  = Math.round(interpolate(frame, [S_COUNTER.start, S_COUNTER.start + 35], [0, 247], { extrapolateLeft: "clamp", extrapolateRight: "clamp" }));
+  // Counter (inside S2)
+  const counterEnterS = spring({ frame: Math.max(0, frame - 200), fps, config: SPRINGS.text });
+  const counterValue  = Math.round(interpolate(frame, [205, 240], [0, 247], { extrapolateLeft: "clamp", extrapolateRight: "clamp" }));
 
   // Scene 6 elements
-  const ctaS   = spring({ frame: Math.max(0, frame - 935), fps, config: SPRINGS.text });
-  const ewFade = interpolate(frame, [950, 960], [0, 1], { extrapolateLeft: "clamp", extrapolateRight: "clamp" });
+  const ctaS   = spring({ frame: Math.max(0, frame - 860), fps, config: SPRINGS.text });
+  const ewFade = interpolate(frame, [875, 885], [0, 1], { extrapolateLeft: "clamp", extrapolateRight: "clamp" });
 
   // Scene 7 elements
-  const logoS7     = spring({ frame: Math.max(0, frame - 1025), fps, config: SPRINGS.text });
-  const logoS7Blur = interpolate(frame, [1070, 1102], [0, 14], { extrapolateLeft: "clamp", extrapolateRight: "clamp" });
-  const logoS7Fade = interpolate(frame, [1070, 1105], [1, 0],  { extrapolateLeft: "clamp", extrapolateRight: "clamp" });
+  const logoS7     = spring({ frame: Math.max(0, frame - 950), fps, config: SPRINGS.text });
+  const logoS7Blur = interpolate(frame, [995, 1027], [0, 14], { extrapolateLeft: "clamp", extrapolateRight: "clamp" });
+  const logoS7Fade = interpolate(frame, [995, 1030], [1, 0],  { extrapolateLeft: "clamp", extrapolateRight: "clamp" });
 
   return (
     <AbsoluteFill style={{ backgroundColor: COLORS.outerBg, fontFamily: fontStack }}>
@@ -118,7 +116,7 @@ export const RecruitingVideo: React.FC = () => {
 
           {/* ── Scene 0 — pausa inicial (fondo oscuro) ── */}
 
-          {/* ── Scene 1 — Hook ── */}
+          {/* ── Scene 1 — Logo space + Hook ── */}
           {frame >= S1.start - 8 && frame < S2.start && (
             <div
               style={{
@@ -128,35 +126,20 @@ export const RecruitingVideo: React.FC = () => {
                 opacity: sceneOp(frame, S1.start, S1.end),
               }}
             >
+              {/* Blank logo placeholder — 131px tall */}
+              <div style={{ width: 826, height: 131, flexShrink: 0 }} />
+              <div style={{ height: 40, flexShrink: 0 }} />
               <TLine text={CONFIG.copy.s1.hook} size={92} weight={300} delay={90} />
             </div>
           )}
 
-          {/* ── Scene 2 — Promesa ── */}
+          {/* ── Scene 2 — Promesa + Counter ── */}
           {frame >= S2.start - 8 && frame < S3.start && (
             <div style={{ position: "absolute", inset: 0, display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", opacity: sceneOp(frame, S2.start, S2.end) }}>
               <TLine text={CONFIG.copy.s2.l1} size={90} weight={300} delay={170} />
               <TLine text={CONFIG.copy.s2.l2} size={108} weight={700} accent glowSoft delay={183} />
-            </div>
-          )}
-
-          {/* ── Scene 3 — Cards ── */}
-          {frame >= S3.start - 8 && frame < S_COUNTER.start && (
-            <JobCardsGrid opacity={sceneOp(frame, S3.start, S3.end)} />
-          )}
-
-          {/* ── Scene COUNTER — 0 → 247 ── */}
-          {frame >= S_COUNTER.start - 8 && frame < S4.start && (
-            <div
-              style={{
-                position: "absolute", inset: 0,
-                display: "flex", flexDirection: "column",
-                alignItems: "center", justifyContent: "center",
-                opacity: sceneOp(frame, S_COUNTER.start, S_COUNTER.end),
-              }}
-            >
-              {/* inline-flex column con alignItems stretch hace que el label
-                  herede exactamente el ancho del número */}
+              {/* Counter — 247 BÚSQUEDAS ACTIVAS */}
+              <div style={{ height: 52, flexShrink: 0 }} />
               <div
                 style={{
                   display: "inline-flex",
@@ -198,6 +181,11 @@ export const RecruitingVideo: React.FC = () => {
             </div>
           )}
 
+          {/* ── Scene 3 — Cards ── */}
+          {frame >= S3.start - 8 && frame < S4.start && (
+            <JobCardsGrid opacity={sceneOp(frame, S3.start, S3.end)} />
+          )}
+
           {/* ── Scene 4 — Browser ── */}
           {frame >= S4.start - 8 && frame < S5.start && (
             <BrowserMockup opacity={sceneOp(frame, S4.start, S4.end)} />
@@ -218,9 +206,9 @@ export const RecruitingVideo: React.FC = () => {
                 opacity: sceneOp(frame, S6.start, S6.end),
               }}
             >
-              <TLine text={CONFIG.copy.s6.l1} size={52} weight={300} delay={902} ls="-0.01em" />
-              <TLine text={CONFIG.copy.s6.l2} size={52} weight={300} delay={906} ls="-0.01em" />
-              <TLine text={CONFIG.copy.s6.l3} size={92} weight={700} accent glowSoft delay={920} />
+              <TLine text={CONFIG.copy.s6.l1} size={52} weight={300} delay={827} ls="-0.01em" />
+              <TLine text={CONFIG.copy.s6.l2} size={52} weight={300} delay={831} ls="-0.01em" />
+              <TLine text={CONFIG.copy.s6.l3} size={92} weight={700} accent glowSoft delay={845} />
 
               {/* CTA button */}
               <div style={{ marginTop: 40, opacity: ctaS, transform: `scale(${interpolate(ctaS,[0,1],[0.95,1])})` }}>

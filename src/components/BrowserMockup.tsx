@@ -3,9 +3,9 @@ import { useCurrentFrame, useVideoConfig, spring, interpolate } from "remotion";
 import { COLORS, SPRINGS, BROWSER, CONFIG, GLOW_TEXT_SOFT, fontStack } from "../constants/theme";
 import { SquareDot } from "./SquareDot";
 
-const SCENE_START  = 570;
-const MOCKUP_ENTER = 590;
-const SCROLL_END   = 730;
+const SCENE_START  = 495;
+const MOCKUP_ENTER = 515;
+const SCROLL_END   = 655;
 
 const GLASS_BG     = "rgba(3, 16, 15, 0.22)";
 const GLASS_BLUR   = "blur(28px)";
@@ -45,7 +45,7 @@ export const BrowserMockup: React.FC<{ opacity: number }> = ({ opacity }) => {
   const frame = useCurrentFrame();
   const { fps } = useVideoConfig();
 
-  const scrollY = interpolate(frame, [650, SCROLL_END], [0, -10], { extrapolateLeft: "clamp", extrapolateRight: "clamp" });
+  const scrollY = interpolate(frame, [575, SCROLL_END], [0, -10], { extrapolateLeft: "clamp", extrapolateRight: "clamp" });
   const mockupS = spring({ frame: Math.max(0, frame - MOCKUP_ENTER), fps, config: SPRINGS.ui });
 
   const h1S = spring({ frame: Math.max(0, frame - (SCENE_START + 8)),  fps, config: SPRINGS.text });

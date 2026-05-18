@@ -2,8 +2,8 @@ import React from "react";
 import { useCurrentFrame, useVideoConfig, spring, interpolate } from "remotion";
 import { COLORS, SPRINGS, UPLOAD, CONFIG, GLOW_TEXT_MINIMAL, GLOW_TEXT_SOFT, fontStack } from "../constants/theme";
 
-const SCENE_START = 750;
-const CARD_ENTER  = 770;
+const SCENE_START = 675;
+const CARD_ENTER  = 695;
 
 const GLASS_BG     = "rgba(3, 16, 15, 0.22)";
 const GLASS_BLUR   = "blur(28px)";
@@ -23,10 +23,10 @@ export const UploadCard: React.FC<{ opacity: number }> = ({ opacity }) => {
 
   const cardS = spring({ frame: Math.max(0, frame - CARD_ENTER), fps, config: SPRINGS.ui });
 
-  const stateFade  = interpolate(frame, [770, 782], [0, 1], { extrapolateLeft: "clamp", extrapolateRight: "clamp" });
-  const barWidth   = interpolate(frame, [772, 795], [0, 100],        { extrapolateLeft: "clamp", extrapolateRight: "clamp" });
-  const matchScore = Math.round(interpolate(frame, [774, 802], [0, u.matchScore], { extrapolateLeft: "clamp", extrapolateRight: "clamp" }));
-  const matchBar   = interpolate(frame, [774, 805], [0, u.matchScore], { extrapolateLeft: "clamp", extrapolateRight: "clamp" });
+  const stateFade  = interpolate(frame, [695, 707], [0, 1], { extrapolateLeft: "clamp", extrapolateRight: "clamp" });
+  const barWidth   = interpolate(frame, [697, 720], [0, 100],        { extrapolateLeft: "clamp", extrapolateRight: "clamp" });
+  const matchScore = Math.round(interpolate(frame, [699, 727], [0, u.matchScore], { extrapolateLeft: "clamp", extrapolateRight: "clamp" }));
+  const matchBar   = interpolate(frame, [699, 730], [0, u.matchScore], { extrapolateLeft: "clamp", extrapolateRight: "clamp" });
 
   const ewS = spring({ frame: Math.max(0, frame - (SCENE_START + 8)),  fps, config: SPRINGS.text });
   const h1S = spring({ frame: Math.max(0, frame - (SCENE_START + 18)), fps, config: SPRINGS.text });
